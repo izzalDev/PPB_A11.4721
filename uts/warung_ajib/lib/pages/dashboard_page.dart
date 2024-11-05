@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:warung_ajib/models/product.dart';
+import 'package:warung_ajib/pages/call_center_page.dart';
 import 'package:warung_ajib/pages/payment_page.dart';
 import 'package:warung_ajib/pages/user_update_page.dart';
 
@@ -48,7 +49,10 @@ class _DashboardPageState extends State<DashboardPage> {
             ));
         break;
       case 'Call Center Penjual':
-        // Handle call center action
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CallCenterPage()),
+        );
         break;
       case 'SMS ke Penjual':
         // Handle SMS action
