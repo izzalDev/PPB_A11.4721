@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -15,7 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
     await prefs.setString(_usernameController.text, _passwordController.text);
     
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Registrasi berhasil!')),
+      const SnackBar(content: Text('Registrasi berhasil!')),
     );
 
     Navigator.of(context).pop(); // Kembali ke halaman login
@@ -25,25 +27,25 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registrasi'),
+        title: const Text('Registrasi'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: _usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Username'),
             ),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _register,
-              child: Text('Registrasi'),
+              child: const Text('Registrasi'),
             ),
           ],
         ),

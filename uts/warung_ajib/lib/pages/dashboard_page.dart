@@ -47,13 +47,13 @@ class _DashboardPageState extends State<DashboardPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => UserUpdatePage(),
+              builder: (context) => const UserUpdatePage(),
             ));
         break;
       case 'Call Center Penjual':
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CallCenterPage()),
+          MaterialPageRoute(builder: (context) => const CallCenterPage()),
         );
         break;
       case 'SMS ke Penjual':
@@ -61,7 +61,7 @@ class _DashboardPageState extends State<DashboardPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SmsPage(),
+            builder: (context) => const SmsPage(),
           ),
         );
         break;
@@ -69,7 +69,7 @@ class _DashboardPageState extends State<DashboardPage> {
         // Handle maps action
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapsPage()),
+          MaterialPageRoute(builder: (context) => const MapsPage()),
         );
         break;
       case 'Pembayaran':

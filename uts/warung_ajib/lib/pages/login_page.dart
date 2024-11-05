@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => RegisterPage(),
+                  builder: (context) => const RegisterPage(),
                 ));
               },
               child: const Text('Belum punya akun? Registrasi di sini'),
