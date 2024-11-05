@@ -1,0 +1,22 @@
+[
+    {
+        "judul": "Matematika",
+        "halaman": 200,
+        "best_seller": false
+    },
+    {
+        "judul": "IPA",
+        "halaman": 100,
+        "best_seller": true
+    },
+    {
+        "judul": "Sejarah",
+        "halaman": 300,
+        "best_seller": false
+    },
+    {
+        "judul": "Pemrograman Jaringan",
+        "halaman": 170,
+        "best_seller": true
+    }
+]
