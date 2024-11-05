@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class MapsPage extends StatelessWidget {
   const MapsPage({super.key});
@@ -9,29 +10,35 @@ class MapsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Lokasi Agen'),
       ),
-      body: const Center(
+      body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'UMKM Warung Ajib',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 'Bandungrejo, Mranggen, Demak',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Untuk informasi lebih lanjut, hubungi agen terdekat atau kunjungi langsung lokasi kami.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),
+              ElevatedButton(
+              onPressed: ()=>{
+                MapsLauncher.launchQuery('Bandungrejo, Mranggen, Demak')
+              },
+              child: const Text('Buka Maps'),
+            ),
             ],
           ),
         ),
