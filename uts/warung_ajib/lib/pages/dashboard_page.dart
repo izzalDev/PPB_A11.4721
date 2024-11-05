@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:warung_ajib/models/product.dart';
 import 'package:warung_ajib/pages/call_center_page.dart';
+import 'package:warung_ajib/pages/maps_page.dart';
 import 'package:warung_ajib/pages/payment_page.dart';
 import 'package:warung_ajib/pages/sms_page.dart';
 import 'package:warung_ajib/pages/user_update_page.dart';
@@ -66,6 +67,10 @@ class _DashboardPageState extends State<DashboardPage> {
         break;
       case 'Maps Lokasi Agen':
         // Handle maps action
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MapsPage()),
+        );
         break;
       case 'Pembayaran':
         Navigator.push(
