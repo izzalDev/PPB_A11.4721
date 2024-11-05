@@ -17,7 +17,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  late List<Product> listProduct = [];
+  late Map<Product, int> productQuantityMap = {};
   int totalHarga = 0;
 
   @override
@@ -30,26 +30,35 @@ class _DashboardPageState extends State<DashboardPage> {
     final String response = await rootBundle.loadString('assets/products.json');
     final List<dynamic> data = json.decode(response);
     setState(() {
-      listProduct = data.map((json) => Product.fromJson(json)).toList();
+      productQuantityMap = {
+        for (var product in data.map((json) => Product.fromJson(json))) product: 0
+      };
     });
   }
 
-  void _tambahKeTotal(int price) {
+  void _tambahKeTotal(Product product) {
     setState(() {
-      totalHarga += price;
+      totalHarga += product.price;
+      productQuantityMap[product] = (productQuantityMap[product] ?? 0) + 1;
     });
   }
 
-  void _showMenu(
-    String choice,
-  ) {
+  void _resetTransaction() {
+    setState(() {
+      totalHarga = 0;
+      productQuantityMap = {
+        for (var product in productQuantityMap.keys) product: 0
+      };
+    });
+  }
+
+  void _showMenu(String choice) {
     switch (choice) {
       case 'Update User & Password':
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const UserUpdatePage(),
-            ));
+          context,
+          MaterialPageRoute(builder: (context) => const UserUpdatePage()),
+        );
         break;
       case 'Call Center Penjual':
         Navigator.push(
@@ -58,16 +67,12 @@ class _DashboardPageState extends State<DashboardPage> {
         );
         break;
       case 'SMS ke Penjual':
-        // Handle SMS action
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const SmsPage(),
-          ),
+          MaterialPageRoute(builder: (context) => const SmsPage()),
         );
         break;
       case 'Maps Lokasi Agen':
-        // Handle maps action
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const MapsPage()),
@@ -77,16 +82,18 @@ class _DashboardPageState extends State<DashboardPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PaymentPage(totalTransaction: totalHarga),
+            builder: (context) => PaymentPage(
+              totalTransaction: totalHarga,
+              productQuantityMap: productQuantityMap,
+              onPaymentComplete: _resetTransaction,
+            ),
           ),
         );
         break;
       case 'Logout':
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (context) => const LoginPage(),
-          ),
+          MaterialPageRoute(builder: (context) => const LoginPage()),
         );
         break;
     }
@@ -103,8 +110,9 @@ class _DashboardPageState extends State<DashboardPage> {
             itemBuilder: (BuildContext context) {
               return [
                 const PopupMenuItem(
-                    value: 'Update User & Password',
-                    child: Text('Update User & Password')),
+                  value: 'Update User & Password',
+                  child: Text('Update User & Password'),
+                ),
                 const PopupMenuItem<String>(
                   value: 'Call Center Penjual',
                   child: Text('Call Center Penjual'),
@@ -124,13 +132,13 @@ class _DashboardPageState extends State<DashboardPage> {
                 const PopupMenuItem<String>(
                   value: 'Logout',
                   child: Text('Logout'),
-                )
+                ),
               ];
             },
           ),
         ],
       ),
-      body: listProduct.isEmpty
+      body: productQuantityMap.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
@@ -143,11 +151,12 @@ class _DashboardPageState extends State<DashboardPage> {
                       mainAxisSpacing: 8.0,
                       childAspectRatio: 0.7,
                     ),
-                    itemCount: listProduct.length,
+                    itemCount: productQuantityMap.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return _buildProductCard(context, listProduct[index]);
+                      final product = productQuantityMap.keys.elementAt(index);
+                      return _buildProductCard(context, product);
                     },
                   ),
                 ],
@@ -167,7 +176,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget _buildProductCard(BuildContext context, Product product) {
     return GestureDetector(
       onTap: () {
-        _tambahKeTotal(product.price);
+        _tambahKeTotal(product);
       },
       child: Card(
         elevation: 4.0,
