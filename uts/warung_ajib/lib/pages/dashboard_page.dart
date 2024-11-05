@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:warung_ajib/models/product.dart';
 import 'package:warung_ajib/pages/call_center_page.dart';
+import 'package:warung_ajib/pages/login_page.dart';
 import 'package:warung_ajib/pages/maps_page.dart';
 import 'package:warung_ajib/pages/payment_page.dart';
 import 'package:warung_ajib/pages/sms_page.dart';
@@ -80,6 +81,14 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         );
         break;
+      case 'Logout':
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ),
+        );
+        break;
     }
   }
 
@@ -112,6 +121,10 @@ class _DashboardPageState extends State<DashboardPage> {
                   value: 'Pembayaran',
                   child: Text('Pembayaran'),
                 ),
+                const PopupMenuItem<String>(
+                  value: 'Logout',
+                  child: Text('Logout'),
+                )
               ];
             },
           ),
