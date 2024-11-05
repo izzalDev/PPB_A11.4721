@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (storedPassword != null && storedPassword == _passwordController.text) {
       // Login berhasil
+      prefs.setString('currentUser', _usernameController.text);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login berhasil!')),
       );

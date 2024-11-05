@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:warung_ajib/models/product.dart';
+import 'package:warung_ajib/pages/payment_page.dart';
+import 'package:warung_ajib/pages/user_update_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -34,17 +36,79 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
+  void _showMenu(
+    String choice,
+  ) {
+    switch (choice) {
+      case 'Update User & Password':
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserUpdatePage(),
+            ));
+        break;
+      case 'Call Center Penjual':
+        // Handle call center action
+        break;
+      case 'SMS ke Penjual':
+        // Handle SMS action
+        break;
+      case 'Maps Lokasi Agen':
+        // Handle maps action
+        break;
+      case 'Pembayaran':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PaymentPage(totalTransaction: totalHarga),
+          ),
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Warung Ajib')),
+      appBar: AppBar(
+        title: const Text('Warung Ajib'),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: _showMenu,
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem(
+                    value: 'Update User & Password',
+                    child: Text('Update User & Password')),
+                const PopupMenuItem<String>(
+                  value: 'Call Center Penjual',
+                  child: Text('Call Center Penjual'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'SMS ke Penjual',
+                  child: Text('SMS ke Penjual'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'Maps Lokasi Agen',
+                  child: Text('Maps Lokasi Agen'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'Pembayaran',
+                  child: Text('Pembayaran'),
+                ),
+              ];
+            },
+          ),
+        ],
+      ),
       body: listProduct.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
                 children: [
                   GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 8.0,
                       mainAxisSpacing: 8.0,
@@ -62,11 +126,10 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.blue.shade100,
-        child:
-          Text(
-            "Total: Rp. $totalHarga",
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+        child: Text(
+          "Total: Rp. $totalHarga",
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -84,7 +147,8 @@ class _DashboardPageState extends State<DashboardPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(10)),
               child: Image.asset(
                 'assets/images/${product.image}',
                 fit: BoxFit.cover,
@@ -101,7 +165,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     Text(
                       product.name,
                       maxLines: 1,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
                     Text(
