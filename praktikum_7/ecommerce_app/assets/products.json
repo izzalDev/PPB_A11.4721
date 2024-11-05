@@ -1,0 +1,45 @@
+[
+    {
+      "id": "1",
+      "name": "Smartphone",
+      "imageUrl": "assets/smartphone.jpg",
+      "description": "Smartphone terbaru dengan fitur canggih.",
+      "price": 3000000
+    },
+    {
+      "id": "2",
+      "name": "Laptop",
+      "imageUrl": "assets/laptop.jpg",
+      "description": "Laptop berkinerja tinggi yang cocok untuk bekerja dan bermain game.",
+      "price": 12000000
+    },
+    {
+      "id": "3",
+      "name": "Headphones",
+      "imageUrl": "assets/headphones.jpg",
+      "description": "Headphone nirkabel dengan kemampuan pembatalan suara.",
+      "price": 750000
+    },
+    {
+      "id": "4",
+      "name": "Smartwatch",
+      "imageUrl": "assets/smartwatch.jpg",
+      "description": "Jam tangan pintar dengan pelacakan kebugaran dan notifikasi.",
+      "price": 1500000
+    },
+    {
+      "id": "5",
+      "name": "Backpack",
+      "imageUrl": "assets/backpack.jpg",
+      "description": "Ransel yang tahan lama untuk penggunaan sehari-hari atau perjalanan.",
+      "price": 500000
+    },
+    {
+      "id": "6",
+      "name": "Bluetooth Speaker",
+      "imageUrl": "assets/bluetooth_speaker.jpg",
+      "description": "Speaker Bluetooth portabel dengan kualitas suara yang tinggi.",
+      "price": 1000000
+    }
+  ]
+  
