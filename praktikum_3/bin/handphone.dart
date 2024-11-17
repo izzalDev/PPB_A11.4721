@@ -12,17 +12,19 @@ class Handphone extends Telepon implements Kamera, Radio {
   }
 
 
+  @override
   void setGelombang(String gel) {
-    this.gelombang = gel;
+    gelombang = gel;
       }
 
 
+  @override
   void setPixel(double pixel) {
     this.pixel = pixel;
   }
 
 
   void setNomor(int no) {
-    this.nomer = no;
+    nomer = no;
   }
 }

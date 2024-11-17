@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
 }
 
 class BookPage extends StatefulWidget {
-  const BookPage({Key? key}) : super(key: key);
+  const BookPage({super.key});
   @override
   State<BookPage> createState() =>
       _BookPageState(); //_BookPageState createState() => _BookPageState();

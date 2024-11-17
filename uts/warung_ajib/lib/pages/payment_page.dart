@@ -57,9 +57,29 @@ class PaymentPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                onPaymentComplete();
-                Navigator.pop(context);
+              onPressed: () async {
+                final result = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Konfirmasi Pembayaran'),
+                    content: const Text('Apakah Anda yakin ingin melakukan pembayaran?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: const Text('Batal'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        child: const Text('Ya'),
+                      ),
+                    ],
+                  ),
+                );
+
+                if (result == true) {
+                  onPaymentComplete();
+                  Navigator.pop(context);
+                }
               },
               child: const Text('Bayar'),
             ),

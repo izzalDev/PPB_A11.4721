@@ -31,7 +31,8 @@ class _DashboardPageState extends State<DashboardPage> {
     final List<dynamic> data = json.decode(response);
     setState(() {
       productQuantityMap = {
-        for (var product in data.map((json) => Product.fromJson(json))) product: 0
+        for (var product in data.map((json) => Product.fromJson(json)))
+          product: 0
       };
     });
   }
@@ -162,12 +163,20 @@ class _DashboardPageState extends State<DashboardPage> {
                 ],
               ),
             ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.blue.shade100,
-        child: Text(
-          "Total: Rp. $totalHarga",
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
+      bottomNavigationBar: GestureDetector(
+        onTap: () {
+          _showMenu('Pembayaran');
+        },
+        child: BottomAppBar(
+          color: Colors.blue.shade100,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "Total: Rp. $totalHarga",
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       ),
     );
