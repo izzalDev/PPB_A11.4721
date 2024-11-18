@@ -14,6 +14,7 @@ void main() async {
 
     setUpAll(() async {
       Directory('screenshots').deleteSync(recursive: true);
+      Directory('screenshots').create(recursive: true);
       driver = await FlutterDriver.connect();
     });
 
