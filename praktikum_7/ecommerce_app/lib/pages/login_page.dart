@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
           content: const Text('User not found. Do you want to create a new user?'),
           actions: [
             TextButton(
+              key: const ValueKey('btn_register'),
               onPressed: () {
                 _createUser();
                 Navigator.of(context).pop();
@@ -97,6 +98,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              key: const ValueKey('btn_login'),
               onPressed: _login,
               child: const Text('Login'),
             ),

@@ -47,6 +47,7 @@ class _DashboardPageState extends State<DashboardPage> {
         itemBuilder: (context, index) {
           final product = products[index];
           return Card(
+            key: ValueKey('product_item_$index'),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
