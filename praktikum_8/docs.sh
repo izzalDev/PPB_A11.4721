@@ -37,7 +37,7 @@ EOF
                 echo -e "\n\`\`\`" >> "$title.md"
             done
         fi
-        echo "## OUTPUT" >> "$title.md"
+        echo "## Output" >> "$title.md"
         for image in $(find $project/screenshots -type f); do
             if [[ -f "$image" ]]; then
                 echo "![$(basename $image)]($image){ width=200px } \ \ " >> "$title.md"
