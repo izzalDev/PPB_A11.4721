@@ -16,4 +16,4 @@ jobs:
           target: PRAKTIKUM_8.pdf
           credentials: ${{ secrets.CREDENTIALS }}
           parent_folder_id: ${{ secrets.FOLDER_ID }}
-          overrite: true          
+          overwrite: true          
