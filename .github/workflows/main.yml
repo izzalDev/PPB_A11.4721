@@ -16,6 +16,4 @@ jobs:
           credentials: ${{ secrets.CREDENTIALS }}
           filename: "PRAKTIKUM_8.pdf"
           folderId: ${{ secrets.FOLDER_ID }}
-          overwrite: "true"
-          
           
