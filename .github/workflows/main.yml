@@ -1,0 +1,19 @@
+# .github/workflows/main.yml
+name: Main
+on: workflow_dispatch
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Upload to gdrive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          credentials: ${{ secrets.CREDENTIALS }}
+          filename: "praktikum_8/PRAKTIKUM_8.pdf"
+          folderId: ${{ secrets.FOLDER_ID }}
+          overwrite: "true"
+          
