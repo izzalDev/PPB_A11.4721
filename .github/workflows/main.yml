@@ -5,7 +5,8 @@ on: workflow_dispatch
 jobs:
   my_job:
     runs-on: ubuntu-latest
-
+    env:
+      ACTIONS_STEP_DEBUG: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,4 +17,5 @@ jobs:
           filename: "PRAKTIKUM_8.pdf"
           folderId: ${{ secrets.FOLDER_ID }}
           overwrite: "true"
+          
           
