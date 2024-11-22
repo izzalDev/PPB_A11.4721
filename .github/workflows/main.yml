@@ -13,7 +13,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.CREDENTIALS }}
-          filename: "praktikum_8/PRAKTIKUM_8.pdf"
+          filename: "PRAKTIKUM_8.pdf"
           folderId: ${{ secrets.FOLDER_ID }}
           overwrite: "true"
           
