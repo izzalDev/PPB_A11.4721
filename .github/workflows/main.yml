@@ -16,10 +16,4 @@ jobs:
           target: PRAKTIKUM_8.pdf
           credentials: ${{ secrets.CREDENTIALS }}
           parent_folder_id: ${{ secrets.FOLDER_ID }}
-      - name: Upload to gdrive
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          credentials: ${{ secrets.CREDENTIALS }}
-          filename: PRAKTIKUM_8.pdf
-          folderId: ${{ secrets.FOLDER_ID }}
-          
+          overrite: true          
