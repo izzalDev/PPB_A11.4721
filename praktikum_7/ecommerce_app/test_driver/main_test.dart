@@ -36,7 +36,7 @@ void main() {
 
     Future<void> takeScreenshot(FlutterDriver driver, String name) async {
       try {
-        final pixels = await driver.screenshot();
+        final pixels = await driver.screenshot().;
         final file = File('screenshots/$name.png');
         file.createSync(recursive: true);
         file.writeAsBytesSync(pixels);

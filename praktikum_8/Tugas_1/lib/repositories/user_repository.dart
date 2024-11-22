@@ -19,10 +19,13 @@ class UserRepository {
       whereArgs: [username],
     );
 
+    db.close();
+
     if (result.isNotEmpty) {
       return User.fromMap(result.first);
+    } else {
+      return null;
     }
-    return null;
   }
 
   Future<void> addUser(User newUser) async {
@@ -32,5 +35,6 @@ class UserRepository {
       newUser.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    db.close();
   }
 }

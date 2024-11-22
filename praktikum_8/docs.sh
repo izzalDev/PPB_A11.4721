@@ -37,10 +37,10 @@ EOF
                 echo -e "\n\`\`\`" >> "$title.md"
             done
         fi
-        echo "## Output" >> "$title.md"
+        echo "## OUTPUT" >> "$title.md"
         for image in $(find $project/screenshots -type f); do
             if [[ -f "$image" ]]; then
-                echo "![$(basename $image)]($image){ width=200px } \ \ " >> "$title.md"
+                echo "![$(basename $image)]($image){ width=250px } \ \ " >> "$title.md"
             fi
         done
         echo "<div style=\"page-break-after: always\; visibility: hidden\">" >> "$title.md"

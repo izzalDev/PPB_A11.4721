@@ -17,7 +17,7 @@ class User {
     if (_id == null) {
       _id = id;
     } else {
-      throw Exception("ID sudah diatur dan tidak bisa diubah lagi.");
+      throw Exception('ID sudah diatur dan tidak bisa diubah lagi.');
     }
   }
 
