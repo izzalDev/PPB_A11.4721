@@ -1,3 +1,4 @@
+scheme-tetex
 pgfpages
 beamerarticle
 amsmath,amssymb
