@@ -2,20 +2,24 @@ name: Generate Dokumentasi
 on: workflow_dispatch
 
 jobs:
-    generate:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
-        - name: Setup TeX Live
-          uses: teatimeguest/setup-texlive-action@v3
-          with:
-            cache: false
-            package-file: ./.github/tex_deps.txt
-        - uses: r-lib/actions/setup-pandoc@v2
-        - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
-          working-directory: praktikum_8
-        - name: Upload artifact
-          uses: actions/upload-artifact@v3
-          with:
-            name: build-result  # Nama artifact
-            path: ./praktikum_8/PRAKTIKUM_8.pdf   # Path file/folder yang akan di-upload
+  generate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        texlive_package: [scheme-basic, scheme-bookpub, scheme-context, scheme-full]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          cache: false
+          package-file: ./.github/tex_deps.txt
+          packages: ${{ matrix.texlive_package }}
+      - uses: r-lib/actions/setup-pandoc@v2
+      - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
+        working-directory: praktikum_8
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-result  # Nama artifact
+          path: ./praktikum_8/PRAKTIKUM_8.pdf   # Path file/folder yang akan di-upload
