@@ -1,4 +1,4 @@
-scheme-tetex
+scheme-small
 pgfpages
 beamerarticle
 amsmath,amssymb
@@ -72,6 +72,3 @@ sourcecodepro
 titling
 etoolbox
 scrlayer-scrpage
-scheme-basic
-texlive-latex-extra
-zref
