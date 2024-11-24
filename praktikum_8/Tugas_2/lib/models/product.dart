@@ -27,8 +27,8 @@ class Product {
     return {
       'id': _id,
       'name': name,
-      'purchasePrice': purchasePrice,
-      'sellingPrice': sellingPrice,
+      'purchase_price': purchasePrice,
+      'selling_price': sellingPrice,
       'stock': stock,
     };
   }
@@ -36,8 +36,8 @@ class Product {
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
       name: map['name'],
-      purchasePrice: map['purchaseSell'],
-      sellingPrice: map['sellingPrice'],
+      purchasePrice: map['purchase_price'],
+      sellingPrice: map['selling_price'],
       stock: map['stock'],
       id: map['id'],
     );

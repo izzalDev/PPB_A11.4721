@@ -55,7 +55,7 @@ class ProductRepository {
       whereArgs: [product.id.toString()],
     );
     db.close();
-    
+
     return result;
   }
 }

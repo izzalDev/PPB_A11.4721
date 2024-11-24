@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_app/models/models.dart';
 
-class ProductFormPage extends StatefulWidget {
-  const ProductFormPage({super.key});
+class ProductFormPage extends StatelessWidget {
+  final Product product;
 
-  @override
-  State<ProductFormPage> createState() => _ProductFormPageState();
-}
+  const ProductFormPage({super.key, required this.product});
 
-class _ProductFormPageState extends State<ProductFormPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Text('Data berhasil dikirim, ${product.name}'),
+      ),
+    );
   }
 }

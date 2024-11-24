@@ -1,0 +1,11 @@
+{
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "test",
+            "database": "/Users/izzal/Library/Developer/CoreSimulator/Devices/96243FAA-49F6-4866-A33C-699EBB3E6FEE/data/Containers/Data/Application/4A8FFA43-EC3E-4AFC-97C1-2A6609398B60/Documents/app_database.sqlite"
+        }
+    ]
+}

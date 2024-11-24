@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -14,6 +16,8 @@ class DBService {
   static Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'app_database.db');
+
+    log('SQLite Location: $path');
 
     return await openDatabase(
       path,
