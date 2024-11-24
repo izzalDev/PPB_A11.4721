@@ -12,7 +12,6 @@ jobs:
             cache: false
             package-file: ./.github/tex_deps.txt
         - uses: r-lib/actions/setup-pandoc@v2
-        - run: tlmgr install --dependencies $(echo ./.github/tex_deps.txt)
         - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
           working-directory: praktikum_8
         - name: Upload artifact
