@@ -73,3 +73,4 @@ etoolbox
 scrlayer-scrpage
 scheme-basic
 texlive-latex-extra
+zref
