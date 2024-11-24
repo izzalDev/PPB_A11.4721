@@ -71,3 +71,4 @@ sourcecodepro
 titling
 etoolbox
 scrlayer-scrpage
+scheme-basic
