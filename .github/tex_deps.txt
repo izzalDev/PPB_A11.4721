@@ -71,5 +71,5 @@ sourcecodepro
 titling
 etoolbox
 scrlayer-scrpage
-scheme-extra
+scheme-basic
 texlive-latex-extra
