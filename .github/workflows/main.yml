@@ -11,9 +11,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Upload a file to Google Drive
-        uses: willo32/google-drive-upload-action@v1
+        uses: adityak74/google-drive-upload-git-action@main
         with:
-          target: PRAKTIKUM_8.pdf
+          filename: PRAKTIKUM_8.pdf
           credentials: ${{ secrets.CREDENTIALS }}
-          parent_folder_id: ${{ secrets.FOLDER_ID }}
+          folderId: ${{ secrets.FOLDER_ID }}
           overwrite: true          

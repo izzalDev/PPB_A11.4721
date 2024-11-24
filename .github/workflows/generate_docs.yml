@@ -1,0 +1,18 @@
+name: Generate Dokumentasi
+on: workflow_dispatch
+
+jobs:
+    generate:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: praktikum_8
+        steps:
+        - uses: actions/checkout@v4
+        - uses: r-lib/actions/setup-pandoc@v2
+        - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
+        - name: Upload artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: build-result  # Nama artifact
+            path: PRAKTIKUM_8.PDF   # Path file/folder yang akan di-upload
