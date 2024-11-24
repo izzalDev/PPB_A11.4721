@@ -12,12 +12,7 @@ jobs:
         - name: Setup TeX Live
           uses: teatimeguest/setup-texlive-action@v3
           with:
-            packages: |
-                scheme-basic setspace colortbl listings
-                adjustbox babel-german background bidi collectbox csquotes everypage filehook
-                footmisc footnotebackref framed fvextra letltxmacro ly1 mdframed mweights
-                needspace pagecolor sourcecodepro sourcesanspro titling ucharcat ulem
-                unicode-math upquote xecjk xurl zref koma-script
+            package-file: ../install.txt
         - uses: r-lib/actions/setup-pandoc@v2
         - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         - name: Upload artifact
