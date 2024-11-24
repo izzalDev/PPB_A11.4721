@@ -1,4 +1,4 @@
-scheme-bookpub
+scheme-context
 pgfpages
 beamerarticle
 amsmath,amssymb
