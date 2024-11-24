@@ -17,4 +17,4 @@ jobs:
           uses: actions/upload-artifact@v3
           with:
             name: build-result  # Nama artifact
-            path: PRAKTIKUM_8.PDF   # Path file/folder yang akan di-upload
+            path: PRAKTIKUM_8.pdf   # Path file/folder yang akan di-upload
