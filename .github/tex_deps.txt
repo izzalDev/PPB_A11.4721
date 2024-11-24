@@ -71,6 +71,4 @@ sourcecodepro
 titling
 etoolbox
 scrlayer-scrpage
-scheme-basic
-zref-abspage
-mdframed
+scheme-extra
