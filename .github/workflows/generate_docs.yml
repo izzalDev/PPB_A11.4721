@@ -13,7 +13,7 @@ jobs:
           uses: teatimeguest/setup-texlive-action@v3
           with:
             packages: |
-                setspace colortbl
+                scheme-basic setspace colortbl
                 adjustbox babel-german background bidi collectbox csquotes everypage filehook
                 footmisc footnotebackref framed fvextra letltxmacro ly1 mdframed mweights
                 needspace pagecolor sourcecodepro sourcesanspro titling ucharcat ulem
