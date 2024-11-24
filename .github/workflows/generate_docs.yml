@@ -9,6 +9,14 @@ jobs:
                 working-directory: praktikum_8
         steps:
         - uses: actions/checkout@v4
+        - name: Setup TeX Live
+          uses: teatimeguest/setup-texlive-action@v3
+          with:
+            packages: |
+                adjustbox babel-german background bidi collectbox csquotes everypage filehook
+                footmisc footnotebackref framed fvextra letltxmacro ly1 mdframed mweights
+                needspace pagecolor sourcecodepro sourcesanspro titling ucharcat ulem
+                unicode-math upquote xecjk xurl zref
         - uses: r-lib/actions/setup-pandoc@v2
         - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         - name: Upload artifact
