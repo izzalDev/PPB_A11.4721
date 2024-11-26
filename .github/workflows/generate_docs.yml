@@ -4,41 +4,6 @@ on: workflow_dispatch
 jobs:
   generate:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        collections:
-          - collection-basic
-          - collection-latex
-          - collection-latexrecomended
-          - collection-metapost
-          - collection-xetex
-          - collection-basic collection-latex
-          - collection-basic collection-latexrecomended
-          - collection-basic collection-metapost
-          - collection-basic collection-xetex
-          - collection-latex collection-latexrecomended
-          - collection-latex collection-metapost
-          - collection-latex collection-xetex
-          - collection-latexrecomended collection-metapost
-          - collection-latexrecomended collection-xetex
-          - collection-metapost collection-xetex
-          - collection-basic collection-latex collection-latexrecomended
-          - collection-basic collection-latex collection-metapost
-          - collection-basic collection-latex collection-xetex
-          - collection-basic collection-latexrecomended collection-metapost
-          - collection-basic collection-latexrecomended collection-xetex
-          - collection-basic collection-metapost collection-xetex
-          - collection-latex collection-latexrecomended collection-metapost
-          - collection-latex collection-latexrecomended collection-xetex
-          - collection-latex collection-metapost collection-xetex
-          - collection-latexrecomended collection-metapost collection-xetex
-          - collection-basic collection-latex collection-latexrecomended collection-metapost
-          - collection-basic collection-latex collection-latexrecomended collection-xetex
-          - collection-basic collection-latex collection-metapost collection-xetex
-          - collection-basic collection-latexrecomended collection-metapost collection-xetex
-          - collection-latex collection-latexrecomended collection-metapost collection-xetex
-          - collection-basic collection-latex collection-latexrecomended collection-metapost collection-xetex
-      fail-fast: false
     steps:
       - uses: actions/checkout@v4
       - name: Setup TeX Live
@@ -46,7 +11,7 @@ jobs:
         with:
           cache: false
           package-file: ./.github/tex_deps.txt
-          packages: scheme-basic scheme-infraonly scheme-minimal scheme-small ${{ matrix.collections }}
+          update-all-packages: true
       - uses: r-lib/actions/setup-pandoc@v2
       - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         working-directory: praktikum_8
