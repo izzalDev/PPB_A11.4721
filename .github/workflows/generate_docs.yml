@@ -1,22 +1,34 @@
 name: Generate Dokumentasi
-on: workflow_dispatch
+
+on:
+  workflow_dispatch:
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup TeX Live
-        uses: teatimeguest/setup-texlive-action@v3
-        with:
-          cache: false
-          package-file: ./.github/tex_deps.txt
-          update-all-packages: true
-      - uses: r-lib/actions/setup-pandoc@v2
-      - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
+      # Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Install TeX Live with texlive-latex-extra
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended texlive-lang-all
+
+      # Setup Pandoc
+      - name: Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+      # Generate PDF using the script
+      - name: Generate PDF
+        run: bash ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         working-directory: praktikum_8
-      - name: Upload artifact
+
+      # Upload the generated PDF as an artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-result  # Nama artifact
-          path: ./praktikum_8/PRAKTIKUM_8.pdf   # Path file/folder yang akan di-upload
+          name: build-result
+          path: praktikum_8/PRAKTIKUM_8.pdf
