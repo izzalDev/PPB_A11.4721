@@ -26,6 +26,14 @@ jobs:
         run: bash ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         working-directory: praktikum_8
 
+      - name: Upload a file to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          filename: ./praktikum_8/PRAKTIKUM_8.pdf
+          credentials: ${{ secrets.CREDENTIALS }}
+          folderId: ${{ secrets.FOLDER_ID }}
+          overwrite: true 
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
