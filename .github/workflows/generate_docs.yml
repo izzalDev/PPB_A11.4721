@@ -24,7 +24,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v2
 
       - name: Run documentation script
-        run: bash .github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
+        run: bash ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         working-directory: praktikum_8
 
       - name: Upload artifact
