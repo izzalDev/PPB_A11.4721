@@ -58,7 +58,7 @@ jobs:
         with:
           cache: false
           package-file: ./.github/tex_deps.txt
-          packages: ${{ matrix.schemes }}
+          packages: ${{ matrix.schemes }} ${{ matrix.collections }}
       - uses: r-lib/actions/setup-pandoc@v2
       - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         working-directory: praktikum_8
