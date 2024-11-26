@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        texlive_package: [scheme-basic, scheme-bookpub, scheme-context, scheme-full]
+        texlive_package: [scheme-basic, scheme-bookpub, scheme-context, scheme-infraonly, scheme-minimal, scheme-small]
     steps:
       - uses: actions/checkout@v4
       - name: Setup TeX Live
