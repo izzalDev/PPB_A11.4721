@@ -44,14 +44,11 @@ EOF
         echo "## screenshot" >> "$title.md"
         find "$project/screenshots" -name "*.png" -type f | while IFS= read -r image; do
             if [[ -f "$image" ]]; then
-                echo "!["$(basename "${image%.png}")"]($image){ width=250px, keepaspectratio }" >> "$title.md"
+                echo "!["$(basename "${image%.png}")"]($image){ width=250px keepaspectratio=true }" >> "$title.md"
                 printf "\n\n" >> "$title.md"
             fi
         done
-        echo "<div style=\"page-break-after: always\; visibility: hidden\">" >> "$title.md"
-        echo "\pagebreak" >> "$title.md"
-        echo "</div>" >> "$title.md"
-        echo "" >> "$title.md"
+        echo "\clearpage" >> "$title.md"
     done
 }
 
