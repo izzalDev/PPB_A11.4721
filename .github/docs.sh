@@ -44,8 +44,7 @@ EOF
         echo "## screenshot" >> "$title.md"
         find "$project/screenshots" -name "*.png" -type f | while IFS= read -r image; do
             if [[ -f "$image" ]]; then
-                magick "$image" -resize 250x "$image"
-                echo "!["$(basename "${image%.png}")"]($image)" >> "$title.md"
+                echo "!["$(basename "${image%.png}")"]($image){ height=70% }" >> "$title.md"
                 printf "\n\n" >> "$title.md"
             fi
         done
