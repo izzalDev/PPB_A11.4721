@@ -6,18 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        schemes:
-          - scheme-basic scheme-infraonly
-          - scheme-basic scheme-minimal
-          - scheme-basic scheme-small
-          - scheme-infraonly scheme-minimal
-          - scheme-infraonly scheme-small
-          - scheme-minimal scheme-small
-          - scheme-basic scheme-infraonly scheme-minimal
-          - scheme-basic scheme-infraonly scheme-small
-          - scheme-basic scheme-minimal scheme-small
-          - scheme-infraonly scheme-minimal scheme-small
-          - scheme-basic scheme-infraonly scheme-minimal scheme-small
         collections:
           - collection-basic
           - collection-latex
@@ -58,7 +46,7 @@ jobs:
         with:
           cache: false
           package-file: ./.github/tex_deps.txt
-          packages: ${{ matrix.schemes }} ${{ matrix.collections }}
+          packages: scheme-basic scheme-infraonly scheme-minimal scheme-small ${{ matrix.collections }}
       - uses: r-lib/actions/setup-pandoc@v2
       - run: ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         working-directory: praktikum_8
