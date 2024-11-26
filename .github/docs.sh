@@ -53,7 +53,10 @@ EOF
 }
 
 render() {
-    pandoc "$title.md" -o "$title.pdf" --template=$(git rev-parse --show-toplevel)/.github/template.latex --listings --number-sections --embed-resources && rm -f "$title.md"
+    pandoc "$title.md" -o "$title.pdf" \
+    --template=$(git rev-parse --show-toplevel)/.github/template.latex \
+    --pdf-engine=pdflatex \
+    --listings --number-sections --embed-resources && rm -f "$title.md"
 }
 
 generate "$1" "$2" && render
