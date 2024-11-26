@@ -18,6 +18,38 @@ jobs:
           - scheme-basic scheme-minimal scheme-small
           - scheme-infraonly scheme-minimal scheme-small
           - scheme-basic scheme-infraonly scheme-minimal scheme-small
+        collections:
+          - collection-basic
+          - collection-latex
+          - collection-latexrecomended
+          - collection-metapost
+          - collection-xetex
+          - collection-basic collection-latex
+          - collection-basic collection-latexrecomended
+          - collection-basic collection-metapost
+          - collection-basic collection-xetex
+          - collection-latex collection-latexrecomended
+          - collection-latex collection-metapost
+          - collection-latex collection-xetex
+          - collection-latexrecomended collection-metapost
+          - collection-latexrecomended collection-xetex
+          - collection-metapost collection-xetex
+          - collection-basic collection-latex collection-latexrecomended
+          - collection-basic collection-latex collection-metapost
+          - collection-basic collection-latex collection-xetex
+          - collection-basic collection-latexrecomended collection-metapost
+          - collection-basic collection-latexrecomended collection-xetex
+          - collection-basic collection-metapost collection-xetex
+          - collection-latex collection-latexrecomended collection-metapost
+          - collection-latex collection-latexrecomended collection-xetex
+          - collection-latex collection-metapost collection-xetex
+          - collection-latexrecomended collection-metapost collection-xetex
+          - collection-basic collection-latex collection-latexrecomended collection-metapost
+          - collection-basic collection-latex collection-latexrecomended collection-xetex
+          - collection-basic collection-latex collection-metapost collection-xetex
+          - collection-basic collection-latexrecomended collection-metapost collection-xetex
+          - collection-latex collection-latexrecomended collection-metapost collection-xetex
+          - collection-basic collection-latex collection-latexrecomended collection-metapost collection-xetex
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
