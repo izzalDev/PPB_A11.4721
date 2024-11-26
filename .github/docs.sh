@@ -54,6 +54,7 @@ EOF
 
 render() {
     pandoc "$title.md" -o "$title.pdf" \
+    --from markdown \
     --template=$(git rev-parse --show-toplevel)/.github/template.latex \
     --pdf-engine=pdflatex \
     --dpi=600 \
