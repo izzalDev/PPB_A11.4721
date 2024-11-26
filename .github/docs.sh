@@ -44,7 +44,8 @@ EOF
         echo "## screenshot" >> "$title.md"
         find "$project/screenshots" -name "*.png" -type f | while IFS= read -r image; do
             if [[ -f "$image" ]]; then
-                echo "!["$(basename "${image%.png}")"]($image){ width=250px keepaspectratio=true }" >> "$title.md"
+                magick "$image" -resize 300x "$image"
+                echo "!["$(basename "${image%.png}")"]($image)" >> "$title.md"
                 printf "\n\n" >> "$title.md"
             fi
         done
@@ -56,6 +57,7 @@ render() {
     pandoc "$title.md" -o "$title.pdf" \
     --template=$(git rev-parse --show-toplevel)/.github/template.latex \
     --pdf-engine=pdflatex \
+    --dpi=300 \
     --listings --number-sections --embed-resources && rm -f "$title.md"
 }
 
