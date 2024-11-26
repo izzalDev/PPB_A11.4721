@@ -57,7 +57,7 @@ render() {
     pandoc "$title.md" -o "$title.pdf" \
     --template=$(git rev-parse --show-toplevel)/.github/template.latex \
     --pdf-engine=pdflatex \
-    --dpi=300 \
+    --dpi=600 \
     --listings --number-sections --embed-resources && rm -f "$title.md"
 }
 
