@@ -6,36 +6,29 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
+
     steps:
-      # Checkout repository
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Install TeX Live and texlive-latex-extra
-      - name: Install TeX Live with texlive-latex-extra
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended texlive-lang-all
+      - name: Setup TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          cache: false
+          package-file: |
+            ./.github/template_deps.txt
+            ./.github/basictex_deps.txt
+          update-all-packages: true
 
-      # Install additional TeX Live packages from file
-      - name: Install Additional TeX Live Packages
-        run: |
-          while read -r package; do
-            sudo tlmgr install "$package"
-          done < .github/tex_deps.txt
-
-      # Setup Pandoc
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
-      # Generate PDF using the script
-      - name: Generate PDF
-        run: bash ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
+      - name: Run documentation script
+        run: bash .github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         working-directory: praktikum_8
 
-      # Upload the generated PDF as an artifact
-      - name: Upload Artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-result
-          path: praktikum_8/PRAKTIKUM_8.pdf
+          name: build-result  # Nama artifact
+          path: ./praktikum_8/PRAKTIKUM_8.pdf  # Path file/folder yang akan di-upload
