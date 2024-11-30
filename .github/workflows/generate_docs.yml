@@ -2,6 +2,7 @@ name: Generate Dokumentasi
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   generate:
