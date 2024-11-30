@@ -40,12 +40,14 @@ jobs:
           -maxdepth 1 \
           -execdir bash -c 'cd "{}" && ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"' \;
 
-      - name: Generate README.md file for documentation
+      - name: Generate html file for documentation
         run: |
-            echo "# Dokumentasi Praktikum" > README.md
+            echo "<html><head><title>Dokumentasi Praktikum</title></head><body><h1>Dokumentasi Praktikum</h1><ul>" > index.html
             find . -type f -name "*.pdf" | while read -r file; do
-                echo "- [$(basename "$file")]($file)" >> README.md
+                echo "<li><a href=\"$file\">$(basename "$file")</a></li>" >> index.html
             done
+            echo "</ul></body></html>" >> index.html
+
         working-directory: dokumentasi
 
       - name: Upload artifact
