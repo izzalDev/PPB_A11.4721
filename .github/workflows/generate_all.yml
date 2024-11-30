@@ -6,19 +6,17 @@ on:
     branches:
       - main
 
-permissions:
-    id-token: write
-    pages: write
-
 jobs:
   generate:
     runs-on: ubuntu-latest
-    steps:
-      - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.5.0
-        with:
-          key: docker-${{ runner.os }}
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    env:
+      GH_TOKEN: ${{ github.token }}
 
+    steps:
       - uses: actions/checkout@v4
 
       - name: Install TeX Live packages
@@ -47,20 +45,20 @@ jobs:
 
       - name: Generate html file for documentation
         run: |
-            echo "[" > files.json
-            first=1
-            find . -type f -name "*.pdf" | while read -r file; do
-                size=$(du -h "$file" | cut -f1)
-                if [ $first -eq 1 ]; then
-                    echo "{ \"name\": \"$(basename $file)\", \"size\": \"$size\" }" >> files.json
-                    first=0
-                else
-                    echo ", { \"name\": \"$(basename $file)\", \"size\": \"$size\" }" >> files.json
-                fi
-            done
-            echo "]" >> files.json
-            cp ../.github/index.html ./index.html
-        working-directory: dokumentasi
+          mkdir -p dokumentasi
+          echo "[" > dokumentasi/files.json
+          first=1
+          find . -type f -name "*.pdf" | while read -r file; do
+              size=$(du -h "$file" | cut -f1)
+              if [ $first -eq 1 ]; then
+                  echo "{ \"name\": \"$(basename $file)\", \"size\": \"$size\" }" >> dokumentasi/files.json
+                  first=0
+              else
+                  echo ", { \"name\": \"$(basename $file)\", \"size\": \"$size\" }" >> dokumentasi/files.json
+              fi
+          done
+          echo "]" >> dokumentasi/files.json
+          cp .github/index.html dokumentasi/index.html
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -69,20 +67,26 @@ jobs:
           path: ./dokumentasi/*.pdf
         if: ${{ success() }}
 
-      - name: Upload github pages artifact
+      - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dokumentasi
-        if: ${{ success() }}
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Update GitHub homepage
+        run: gh repo edit --homepage "${{ steps.deployment.outputs.page_url }}"
+
       - name: Upload all to Google Drive (optional)
         uses: adityak74/google-drive-upload-git-action@main
+        env:
+          folder_id: ${{ secrets.FOLDER_ID }}
+          credentials: ${{ secrets.CREDENTIALS }}
         with:
           filename: ./dokumentasi/*.pdf
           credentials: ${{ secrets.CREDENTIALS }}
           folderId: ${{ secrets.FOLDER_ID }}
           overwrite: true
+        if: ${{ env.FOLDER_ID && env.CREDENTIALS }}
