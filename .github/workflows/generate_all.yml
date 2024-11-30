@@ -19,6 +19,9 @@ jobs:
             ./.github/template_deps.txt
             ./.github/basictex_deps.txt
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Install Pandoc (specific version)
         uses: r-lib/actions/setup-pandoc@v2
         with:
@@ -33,12 +36,24 @@ jobs:
           -maxdepth 1 \
           -execdir bash -c 'cd "{}" && ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"' \;
 
+      - name: Generate README.md file for documentation
+        run: |
+            echo "# Dokumentasi Praktikum" > README.md
+            find . -type f -name "*.pdf" | while read -r file; do
+                echo "- [$(basename "$file")]($file)" >> README.md
+            done
+        working-directory: dokumentasi
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v3
         with:
           name: dokumentasi
           path: dokumentasi
         if: ${{ success() }}
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Upload all to Google Drive (optional)
         uses: adityak74/google-drive-upload-git-action@main
