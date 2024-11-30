@@ -14,12 +14,12 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
       - name: Cache Docker images.
         uses: ScribeMD/docker-cache@0.5.0
         with:
           key: docker-${{ runner.os }}
+
+      - uses: actions/checkout@v4
 
       - name: Install TeX Live packages
         uses: teatimeguest/setup-texlive-action@v3
