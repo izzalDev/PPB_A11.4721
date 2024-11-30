@@ -48,7 +48,7 @@ jobs:
       - name: Run documentation script (conditional execution)
         run: |
           if [[ -f ../.github/docs.sh ]]; then
-            bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
+            bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}" "${{ matrix.directory }}"
           else
             echo "Documentation script (../.github/docs.sh) not found. Skipping documentation generation."
           fi
@@ -57,8 +57,8 @@ jobs:
       - name: Upload artifact (optional)
         uses: actions/upload-artifact@v3
         with:
-          name: dokumentasi
-          path: dokumentasi
+          name: dokumentasi-${{ matrix.directory }}  # Include directory name in artifact name
+          path: ${{ matrix.directory }}/dokumentasi/*.pdf  # Target all PDF files in dokumentasi folder
         if: ${{ success() }}
 
       # Uncomment and configure for Google Drive upload (optional)
