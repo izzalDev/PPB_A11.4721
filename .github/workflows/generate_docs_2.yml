@@ -19,7 +19,7 @@ jobs:
           sudo tlmgr update --self
           while IFS= read -r package; do
             sudo tlmgr install "$package"
-          done < template_deps.txt
+          done < .github/template_deps.txt
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
