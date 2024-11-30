@@ -28,6 +28,7 @@ jobs:
             uts,
             uas,
           ]
+      fail-fast: false
 
     steps:
       - name: Checkout repository
