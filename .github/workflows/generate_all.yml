@@ -89,4 +89,4 @@ jobs:
           credentials: ${{ secrets.CREDENTIALS }}
           folderId: ${{ secrets.FOLDER_ID }}
           overwrite: true
-        if: ${{ env.FOLDER_ID && env.CREDENTIALS }}
+        if: ${{ env.folder_id && env.credentials }}
