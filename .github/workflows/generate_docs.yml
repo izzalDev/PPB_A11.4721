@@ -18,7 +18,6 @@ jobs:
           package-file: |
             ./.github/template_deps.txt
             ./.github/basictex_deps.txt
-          update-all-packages: true
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
