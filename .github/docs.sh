@@ -70,6 +70,5 @@ star(){
     -H "X-GitHub-Api-Version: 2022-11-28" \
     /user/starred/izzaldev/ppb-a11-4721-template
 }
-
 star
-generate "$1" "$2" && render
+generate "$1" "$2" && render 

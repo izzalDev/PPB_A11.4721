@@ -1,106 +1,92 @@
-name: Generate Dokumentasi
+name: Generate Documentation
 
 on:
   workflow_dispatch:
   push:
-    paths:
-      - praktikum_{1..14}/**
-      - uas/**
-      - uts/**
+    branches:
+      - main
+
+permissions: write-all
+
+env:
+    GH_TOKEN: ${{ github.token }}
 
 jobs:
   generate:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Cache dokumentasi
-        id: cache-docs
-        uses: actions/cache@v4
-        with:
-          path: dokumentasi
-          key: ${{ runner.os }}-dokumentasi
-
-      - name: Get changed directory
-        id: change-dirs
-        run: |
-          dirs=$(git diff main --name-only | awk -F/ '{print $1}' | sort -u)
-          echo "Changed directories: $dirs"
-          echo "changed_dirs=$dirs" >> $GITHUB_OUTPUT
-
-      - name: Setup TeX Live
+      - name: Install TeX Live packages
         uses: teatimeguest/setup-texlive-action@v3
         with:
           package-file: |
             ./.github/template_deps.txt
             ./.github/basictex_deps.txt
 
-      - name: Setup Pandoc
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install Pandoc (specific version)
         uses: r-lib/actions/setup-pandoc@v2
         with:
           pandoc-version: 3.5
 
-      - name: Run documentation script
+      - name: Run documentation script (conditional execution)
         run: |
-          if echo "${{ steps.change-dirs.outputs }}"; then
-            echo "Directory ${{ steps.change-dirs.outputs }} has changed. Running documentation script..."
-            bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
-          else
-            echo "Directory ${{ steps.change-dirs.outputs }} does not exist. Skipping..."
-          fi
-        working-directory: ${{ steps.change-dirs.outputs }}
+          find . -type d \
+          \( -name 'praktikum_1[0-4]' \
+          -o -name 'praktikum_[0-9]' \
+          -o -name 'uts' -o -name 'uas' \) \
+          -maxdepth 1 \
+          -execdir bash -c 'cd "{}" && ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"' \;
+
+      - name: Generate html file for documentation
+        run: |
+            echo "[" > files.json
+            first=1
+            find . -type f -name "*.pdf" | while read -r file; do
+                size=$(du -h "$file" | cut -f1)
+                if [ $first -eq 1 ]; then
+                    echo "{ \"name\": \"$(basename $file)\", \"size\": \"$size\" }" >> files.json
+                    first=0
+                else
+                    echo ", { \"name\": \"$(basename $file)\", \"size\": \"$size\" }" >> files.json
+                fi
+            done
+            echo "]" >> files.json
+            cp ../.github/index.html ./index.html
+
+        working-directory: dokumentasi
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dokumentasi
+          path: ./dokumentasi/*.pdf
+        if: ${{ success() }}
+
+      - name: Upload github pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
           path: dokumentasi
+        if: ${{ success() }}
 
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
+      - name: Update github homepage
+        run: gh repo edit --homepage ${{ steps.deployment.outputs.page_url }}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      # - name: Upload a file to Google Drive
-      #   uses: adityak74/google-drive-upload-git-action@main
-      #   with:
-      #     filename: ./dokumentasi/PRAKTIKUM_8.pdf
-      #     credentials: ${{ secrets.CREDENTIALS }}
-      #     folderId: ${{ secrets.FOLDER_ID }}
-      #     overwrite: true
+      - name: Upload all to Google Drive (optional)
+        uses: adityak74/google-drive-upload-git-action@main
+        env:
+          folder_id: ${{ secrets.FOLDER_ID }}
+          credentials: ${{ secrets.CREDENTIALS }}
+        with:
+          filename: ./dokumentasi/*.pdf
+          credentials: ${{ secrets.CREDENTIALS }}
+          folderId: ${{ secrets.FOLDER_ID }}
+          overwrite: true
+        if: ${{ env.folder_id && env.credentials}}

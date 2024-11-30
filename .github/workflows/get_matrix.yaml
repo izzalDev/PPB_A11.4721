@@ -1,5 +1,0 @@
-name: Get matrix from find
-on:
-    workflow_dispatch:
-    push:
-        -
