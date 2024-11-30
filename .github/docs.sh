@@ -71,4 +71,5 @@ star(){
     /user/starred/izzaldev/ppb-a11-4721-template
 }
 
+star
 generate "$1" "$2" && render
