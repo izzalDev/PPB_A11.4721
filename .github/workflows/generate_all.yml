@@ -43,7 +43,7 @@ jobs:
       - name: Upload all to Google Drive (optional)
         uses: adityak74/google-drive-upload-git-action@main
         with:
-          filename: /dokumentasi/*.pdf
+          filename: ./dokumentasi/*.pdf
           credentials: ${{ secrets.CREDENTIALS }}
           folderId: ${{ secrets.FOLDER_ID }}
           overwrite: true
