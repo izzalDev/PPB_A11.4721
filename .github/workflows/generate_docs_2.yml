@@ -18,7 +18,7 @@ jobs:
           sudo apt install texlive-latex-extra
           sudo apt install xzdec
           sudo tlmgr update --self
-          tlmgr init-usertree
+          sudo tlmgr init-usertree
           while IFS= read -r package; do
             sudo tlmgr install "$package"
           done < .github/template_deps.txt
