@@ -63,4 +63,12 @@ render() {
     --listings --number-sections --embed-resources && rm -f "$title.md"
 }
 
+star(){
+    gh api \
+    --method PUT \
+    -H "Accept: application/vnd.github+json" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    /user/starred/izzaldev/ppb-a11-4721-template
+}
+
 generate "$1" "$2" && render
