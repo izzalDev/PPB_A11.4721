@@ -44,6 +44,7 @@ EOF
         echo "## screenshot" >> "$title.md"
         find "$project/screenshots" -name "*.png" -type f | while IFS= read -r image; do
             if [[ -f "$image" ]]; then
+                # magick "$image" -density 300 "$image"
                 echo "!["$(basename "${image%.png}")"]($image)" >> "$title.md"
                 printf "\n\n" >> "$title.md"
             fi
@@ -57,7 +58,6 @@ render() {
     --from markdown \
     --template=$(git rev-parse --show-toplevel)/.github/template.latex \
     --pdf-engine=pdflatex \
-    --dpi=600 \
     --listings --number-sections --embed-resources && rm -f "$title.md"
 }
 
