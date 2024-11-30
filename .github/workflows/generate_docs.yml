@@ -34,6 +34,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache dokumentasi
+        id: cache-docs
+        uses: actions/cache@v4
+        with:
+          path: dokumentasi
+          key: ${{ runner.os }}-dokumentasi
+
+      - name: Get changed directory
+        id: change-dirs
+        run: |
+          dirs=$(git diff main --name-only | awk -F/ '{print $1}' | sort -u)
+          echo "Changed directories: $dirs"
+          echo "changed_dirs=$dirs" >> $GITHUB_ENV
+
       - name: Setup TeX Live
         uses: teatimeguest/setup-texlive-action@v3
         with:
@@ -48,7 +62,12 @@ jobs:
 
       - name: Run documentation script
         run: |
-          bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
+          if echo "${{ env.change-dirs }}" | grep -qw "${{ matrix.directory }}"; then
+            echo "Directory ${{ matrix.directory }} has changed. Running documentation script..."
+            bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
+          else
+            echo "Directory ${{ matrix.directory }} does not exist. Skipping..."
+          fi
         working-directory: ${{ matrix.directory }}
 
       - name: Upload artifact
@@ -57,11 +76,10 @@ jobs:
           name: dokumentasi
           path: dokumentasi
 
-
-            # - name: Upload a file to Google Drive
-            #   uses: adityak74/google-drive-upload-git-action@main
-            #   with:
-            #     filename: ./praktikum_8/PRAKTIKUM_8.pdf
-            #     credentials: ${{ secrets.CREDENTIALS }}
-            #     folderId: ${{ secrets.FOLDER_ID }}
-            #     overwrite: true
+      - name: Upload a file to Google Drive
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          filename: ./dokumentasi/PRAKTIKUM_8.pdf
+          credentials: ${{ secrets.CREDENTIALS }}
+          folderId: ${{ secrets.FOLDER_ID }}
+          overwrite: true
