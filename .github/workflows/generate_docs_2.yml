@@ -12,34 +12,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Dependency
+      - name: Install Dependencies
         run: |
-          sudo apt install imagemagick
-          sudo apt install texlive-latex-extra
-          sudo apt install xzdec
+          sudo apt-get update
+          sudo apt-get install -y imagemagick texlive-latex-extra xzdec
           sudo tlmgr update --self
           sudo tlmgr init-usertree
-          while IFS= read -r package; do
-            sudo tlmgr install "$package"
-          done < .github/template_deps.txt
+          if [[ -f .github/template_deps.txt ]]; then
+            while IFS= read -r package; do
+              sudo tlmgr install "$package"
+            done < .github/template_deps.txt
+          else
+            echo "Dependency file not found: .github/template_deps.txt"
+            exit 1
+          fi
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Run documentation script
+      - name: Run Documentation Script
         run: bash ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
         working-directory: praktikum_8
 
-      - name: Upload a file to Google Drive
+      - name: Upload to Google Drive
         uses: adityak74/google-drive-upload-git-action@main
         with:
           filename: ./praktikum_8/PRAKTIKUM_8.pdf
           credentials: ${{ secrets.CREDENTIALS }}
           folderId: ${{ secrets.FOLDER_ID }}
-          overwrite: true 
+          overwrite: true
 
-      - name: Upload artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-result  # Nama artifact
-          path: ./praktikum_8/PRAKTIKUM_8.pdf  # Path file/folder yang akan di-upload
+          name: build-result
+          path: ./praktikum_8/PRAKTIKUM_8.pdf
