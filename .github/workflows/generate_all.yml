@@ -1,91 +1,58 @@
-name: Generate Dokumentasi
+name: Generate Documentation
 
 on:
   workflow_dispatch:
   push:
     branches:
-        - main
+      - main
 
 jobs:
   generate:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Get all directory
+      - name: Get all directories with pattern matching
         id: all_dirs
         run: |
-          dirs=$(ls -d */ | grep -E 'praktikum_(1[0-4]|[1-9])|uts|uas')
+          dirs=$(find . -type d -regex '.*/(praktikum_[0-9]{1,2}|uts|uas)')
           echo "Detected directories: $dirs"
           echo "dirs=$dirs" >> $GITHUB_OUTPUT
 
-      - name: Setup TeX Live
+      - name: Install TeX Live packages
         uses: teatimeguest/setup-texlive-action@v3
         with:
           package-file: |
             ./.github/template_deps.txt
             ./.github/basictex_deps.txt
 
-      - name: Setup Pandoc
+      - name: Install Pandoc (specific version)
         uses: r-lib/actions/setup-pandoc@v2
         with:
           pandoc-version: 3.5
 
-      - name: Run documentation script
-        run: bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
+      - name: Run documentation script (conditional execution)
+        run: |
+          if [[ -f ../.github/docs.sh ]]; then
+            bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
+          else
+            echo "Documentation script (../.github/docs.sh) not found. Skipping documentation generation."
+          fi
         working-directory: ${{ steps.all_dirs.outputs.dirs }}
 
-      - name: Upload artifact
+      - name: Upload artifact (optional)
         uses: actions/upload-artifact@v3
         with:
           name: dokumentasi
           path: dokumentasi
+        if: ${{ success() }}  # Upload only on successful workflow run
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      # - name: Upload a file to Google Drive
+      # Uncomment and configure for Google Drive upload (optional)
+      # - name: Upload documentation to Google Drive (optional)
       #   uses: adityak74/google-drive-upload-git-action@main
       #   with:
-      #     filename: ./dokumentasi/PRAKTIKUM_8.pdf
+      #     filename: dokumentasi/PRAKTIKUM_8.pdf  # Adjust filename
       #     credentials: ${{ secrets.CREDENTIALS }}
-      #     folderId: ${{ secrets.FOLDER_ID }}
+      #     folderId: ${{ secrets.CREDENTIALS }}
       #     overwrite: true
