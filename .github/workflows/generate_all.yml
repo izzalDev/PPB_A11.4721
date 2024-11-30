@@ -7,29 +7,8 @@ on:
       - main
 
 jobs:
-  get_dirs:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Get all directories with pattern matching
-        id: all_dirs
-        run: |
-          dirs=$(find . -type d -regex '.*/(praktikum_[0-9]{1,2}|uts|uas)')
-          echo "Detected directories: $dirs"
-          dirs_array=$(echo $dirs | tr ' ' '\n' | jq -R . | jq -s .)
-          echo "dirs=$dirs_array" >> $GITHUB_OUTPUT
-          
-    outputs:
-      dirs: ${{ steps.all_dirs.outputs.dirs }}
-
   generate:
     runs-on: ubuntu-latest
-    needs: get_dirs
-    strategy:
-      matrix:
-        directory: ${{ fromJson(needs.get_dirs.outputs.dirs) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -47,18 +26,18 @@ jobs:
 
       - name: Run documentation script (conditional execution)
         run: |
-          if [[ -f ../.github/docs.sh ]]; then
-            bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}" "${{ matrix.directory }}"
-          else
-            echo "Documentation script (../.github/docs.sh) not found. Skipping documentation generation."
-          fi
-        working-directory: ${{ matrix.directory }}
+          find . -type d \
+          \( -name 'praktikum_1[0-4]' \
+          -o -name 'praktikum_[0-9]' \
+          -o -name 'uts' -o -name 'uas' \) \
+          -maxdepth 1 \
+          -execdir ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
 
       - name: Upload artifact (optional)
         uses: actions/upload-artifact@v3
         with:
-          name: dokumentasi-${{ matrix.directory }}  # Include directory name in artifact name
-          path: ${{ matrix.directory }}/dokumentasi/*.pdf  # Target all PDF files in dokumentasi folder
+          name: dokumentasi
+          path: dokumentasi
         if: ${{ success() }}
 
       # Uncomment and configure for Google Drive upload (optional)
