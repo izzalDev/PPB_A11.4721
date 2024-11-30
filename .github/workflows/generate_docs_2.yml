@@ -12,13 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install imagemagick
-        run: sudo apt install imagemagick
-
-      - name: Install TeXLive
-        uses: DanySK/setup-texlive-action@master
-        with:
-          requirements-file: .github/template_deps.txt
+      - name: Install Dependency
+        run: |
+          sudo apt install imagemagick
+          sudo apt install texlive-latex-extra
+          sudo tlmgr update --self
+          while IFS= read -r package; do
+            sudo tlmgr install "$package"
+          done < template_deps.txt
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
