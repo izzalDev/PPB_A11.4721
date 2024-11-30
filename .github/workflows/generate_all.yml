@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  generate:
+  get_dirs:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +19,18 @@ jobs:
           dirs=$(find . -type d -regex '.*/(praktikum_[0-9]{1,2}|uts|uas)')
           echo "Detected directories: $dirs"
           echo "dirs=$dirs" >> $GITHUB_OUTPUT
+          
+    outputs:
+      dirs: ${{ steps.all_dirs.outputs.dirs }}
+
+  generate:
+    runs-on: ubuntu-latest
+    needs: get_dirs
+    strategy:
+      matrix:
+        directory: ${{ fromJson(needs.get_dirs.outputs.dirs) }}
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Install TeX Live packages
         uses: teatimeguest/setup-texlive-action@v3
@@ -39,20 +51,20 @@ jobs:
           else
             echo "Documentation script (../.github/docs.sh) not found. Skipping documentation generation."
           fi
-        working-directory: ${{ steps.all_dirs.outputs.dirs }}
+        working-directory: ${{ matrix.directory }}
 
       - name: Upload artifact (optional)
         uses: actions/upload-artifact@v3
         with:
           name: dokumentasi
           path: dokumentasi
-        if: ${{ success() }}  # Upload only on successful workflow run
+        if: ${{ success() }}
 
       # Uncomment and configure for Google Drive upload (optional)
       # - name: Upload documentation to Google Drive (optional)
       #   uses: adityak74/google-drive-upload-git-action@main
       #   with:
-      #     filename: dokumentasi/PRAKTIKUM_8.pdf  # Adjust filename
+      #     filename: ${{ matrix.directory }}/dokumentasi/PRAKTIKUM_8.pdf  # Adjust filename based on directory and file name
       #     credentials: ${{ secrets.CREDENTIALS }}
       #     folderId: ${{ secrets.CREDENTIALS }}
       #     overwrite: true
