@@ -6,8 +6,12 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+
 env:
-  GH_TOKEN: ${{ github.token }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   generate:
     runs-on: ubuntu-latest
