@@ -44,7 +44,7 @@ EOF
         echo "## screenshot" >> "$title.md"
         find "$project/screenshots" -name "*.png" -type f | while IFS= read -r image; do
             if [[ -f "$image" ]]; then
-                # magick "$image" -density 600 "$image"
+                magick "$image" -density 600 "$image"
                 echo "!["$(basename "${image%.png}")"]($image)" >> "$title.md"
                 printf "\n\n" >> "$title.md"
             fi
