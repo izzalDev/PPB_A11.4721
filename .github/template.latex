@@ -397,7 +397,7 @@ $if(graphics)$
   \sbox\pandoc@box{#1}%
   
   % Maksimum tinggi dan lebar gambar sesuai ukuran kertas
-  \def\maxheight{\dimexpr\paperheight-3in\relax} % Margin 1.5 inci atas & bawah
+  \def\maxheight{\dimexpr\paperheight-4in\relax} % Margin 1.5 inci atas & bawah
   \def\maxwidth{\dimexpr\paperwidth-2in\relax}  % Margin 1 inci kiri & kanan
 
   % Skala berdasarkan batas tinggi
