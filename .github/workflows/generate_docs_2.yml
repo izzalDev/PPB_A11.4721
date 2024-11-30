@@ -16,11 +16,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick texlive-latex-extra xzdec
-          sudo tlmgr update --self
+          sudo tlmgr update --self || echo "Skipping update due to Debian-specific limitations."
+          mkdir -p $HOME/texmf
           sudo tlmgr init-usertree
+
           if [[ -f .github/template_deps.txt ]]; then
             while IFS= read -r package; do
-              sudo tlmgr install "$package"
+              sudo tlmgr install "$package" || echo "Failed to install $package. Skipping."
             done < .github/template_deps.txt
           else
             echo "Dependency file not found: .github/template_deps.txt"
@@ -47,3 +49,4 @@ jobs:
         with:
           name: build-result
           path: ./praktikum_8/PRAKTIKUM_8.pdf
+          
