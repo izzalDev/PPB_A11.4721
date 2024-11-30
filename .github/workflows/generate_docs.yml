@@ -23,6 +23,8 @@ jobs:
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
+        with:
+          pandoc-version: 3.5
 
       - name: Run documentation script
         run: bash ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
