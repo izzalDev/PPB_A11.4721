@@ -31,7 +31,7 @@ jobs:
           -o -name 'praktikum_[0-9]' \
           -o -name 'uts' -o -name 'uas' \) \
           -maxdepth 1 \
-          -execdir .github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}" \;
+          -execdir bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}" \;
 
       - name: Upload artifact (optional)
         uses: actions/upload-artifact@v3
