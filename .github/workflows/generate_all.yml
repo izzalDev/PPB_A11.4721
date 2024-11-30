@@ -49,9 +49,15 @@ jobs:
         working-directory: dokumentasi
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: dokumentasi
+          path: dokumentasi
+        if: ${{ success() }}
+
+      - name: Upload github pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
           path: dokumentasi
         if: ${{ success() }}
 
