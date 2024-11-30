@@ -3,32 +3,14 @@ name: Generate Dokumentasi
 on:
   workflow_dispatch:
   push:
+    paths:
+      - praktikum_{1..14}/**
+      - uas/**
+      - uts/**
 
 jobs:
   generate:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        directory:
-          [
-            praktikum_1,
-            praktikum_2,
-            praktikum_3,
-            praktikum_4,
-            praktikum_5,
-            praktikum_6,
-            praktikum_7,
-            praktikum_8,
-            praktikum_9,
-            praktikum_10,
-            praktikum_11,
-            praktikum_12,
-            praktikum_13,
-            praktikum_14,
-            uts,
-            uas,
-          ]
-      fail-fast: false
 
     steps:
       - name: Checkout repository
@@ -46,7 +28,7 @@ jobs:
         run: |
           dirs=$(git diff main --name-only | awk -F/ '{print $1}' | sort -u)
           echo "Changed directories: $dirs"
-          echo "changed_dirs=$dirs" >> $GITHUB_ENV
+          echo "changed_dirs=$dirs" >> $GITHUB_OUTPUT
 
       - name: Setup TeX Live
         uses: teatimeguest/setup-texlive-action@v3
@@ -62,13 +44,13 @@ jobs:
 
       - name: Run documentation script
         run: |
-          if echo "${{ env.change-dirs }}" | grep -qw "${{ matrix.directory }}"; then
-            echo "Directory ${{ matrix.directory }} has changed. Running documentation script..."
+          if echo "${{ steps.change-dirs.outputs }}"; then
+            echo "Directory ${{ steps.change-dirs.outputs }} has changed. Running documentation script..."
             bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
           else
-            echo "Directory ${{ matrix.directory }} does not exist. Skipping..."
+            echo "Directory ${{ steps.change-dirs.outputs }} does not exist. Skipping..."
           fi
-        working-directory: ${{ matrix.directory }}
+        working-directory: ${{ steps.change-dirs.outputs }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -76,10 +58,49 @@ jobs:
           name: dokumentasi
           path: dokumentasi
 
-      - name: Upload a file to Google Drive
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          filename: ./dokumentasi/PRAKTIKUM_8.pdf
-          credentials: ${{ secrets.CREDENTIALS }}
-          folderId: ${{ secrets.FOLDER_ID }}
-          overwrite: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      # - name: Upload a file to Google Drive
+      #   uses: adityak74/google-drive-upload-git-action@main
+      #   with:
+      #     filename: ./dokumentasi/PRAKTIKUM_8.pdf
+      #     credentials: ${{ secrets.CREDENTIALS }}
+      #     folderId: ${{ secrets.FOLDER_ID }}
+      #     overwrite: true
