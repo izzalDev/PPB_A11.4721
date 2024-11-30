@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+permissions:
+    id-token: write
+    pages: write
+
 jobs:
   generate:
     runs-on: ubuntu-latest
