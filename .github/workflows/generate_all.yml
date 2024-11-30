@@ -1,0 +1,91 @@
+name: Generate Dokumentasi
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+        - main
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get all directory
+        id: all_dirs
+        run: |
+          dirs=$(ls -d */ | grep -E 'praktikum_(1[0-4]|[1-9])|uts|uas')
+          echo "Detected directories: $dirs"
+          echo "$dirs" >> $GITHUB_OUTPUT
+
+      - name: Setup TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          package-file: |
+            ./.github/template_deps.txt
+            ./.github/basictex_deps.txt
+
+      - name: Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+        with:
+          pandoc-version: 3.5
+
+      - name: Run documentation script
+        run: bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
+        working-directory: ${{ steps.all_dirs.outputs }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dokumentasi
+          path: dokumentasi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      # - name: Upload a file to Google Drive
+      #   uses: adityak74/google-drive-upload-git-action@main
+      #   with:
+      #     filename: ./dokumentasi/PRAKTIKUM_8.pdf
+      #     credentials: ${{ secrets.CREDENTIALS }}
+      #     folderId: ${{ secrets.FOLDER_ID }}
+      #     overwrite: true
