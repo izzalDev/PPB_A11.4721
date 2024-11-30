@@ -24,9 +24,6 @@ jobs:
             ./.github/template_deps.txt
             ./.github/basictex_deps.txt
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
       - name: Install Pandoc (specific version)
         uses: r-lib/actions/setup-pandoc@v2
         with:
@@ -75,9 +72,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Update github homepage
-        run: gh repo edit --homepage ${{ steps.deployment.outputs.page_url }}
 
       - name: Upload all to Google Drive (optional)
         uses: adityak74/google-drive-upload-git-action@main
