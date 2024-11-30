@@ -13,7 +13,7 @@ permissions:
   repository-projects: write
 
 env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   generate:
@@ -81,7 +81,7 @@ jobs:
 
       - name: Update GitHub homepage
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         run: gh repo edit --homepage "${{ steps.deployment.outputs.page_url }}"
 
       - name: Upload all to Google Drive (optional)
