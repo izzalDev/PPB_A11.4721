@@ -1,6 +1,7 @@
 #!/bin/bash
 
 title=$(echo $(basename "$(pwd)") | awk '{print toupper($0)}')
+root_dir=$(git rev-parse --show-toplevel)
 
 generate() {
     cat << EOF > "$title.md"
@@ -54,9 +55,10 @@ EOF
 }
 
 render() {
-    pandoc "$title.md" -o "$title.pdf" \
+    mkdir -p "$root_dir/dokumentasi"
+    pandoc "$title.md" -o "$root_dir/dokumentasi/$title.pdf" \
     --from markdown \
-    --template=$(git rev-parse --show-toplevel)/.github/eisvogel.latex \
+    --template=$root_dir/.github/eisvogel.latex \
     --pdf-engine=pdflatex \
     --listings --number-sections --embed-resources && rm -f "$title.md"
 }

@@ -7,6 +7,27 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory:
+          [
+            praktikum_1,
+            praktikum_2,
+            praktikum_3,
+            praktikum_4,
+            praktikum_5,
+            praktikum_6,
+            praktikum_7,
+            praktikum_8,
+            praktikum_9,
+            praktikum_10,
+            praktikum_11,
+            praktikum_12,
+            praktikum_13,
+            praktikum_14,
+            uts,
+            uas,
+          ]
 
     steps:
       - name: Checkout repository
@@ -18,10 +39,6 @@ jobs:
           package-file: |
             ./.github/template_deps.txt
             ./.github/basictex_deps.txt
-            
-      - name: List entries
-        if: failure()
-        run: ls -l /home/runner/work/_temp/setup-texlive-action/2024/bin
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
@@ -29,19 +46,21 @@ jobs:
           pandoc-version: 3.5
 
       - name: Run documentation script
-        run: bash ../.github/docs.sh "Rizal Fadlullah" "A11.2019.12070"
-        working-directory: praktikum_8
-
-      - name: Upload a file to Google Drive
-        uses: adityak74/google-drive-upload-git-action@main
-        with:
-          filename: ./praktikum_8/PRAKTIKUM_8.pdf
-          credentials: ${{ secrets.CREDENTIALS }}
-          folderId: ${{ secrets.FOLDER_ID }}
-          overwrite: true 
+        run: |
+          bash ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"
+        working-directory: ${{ matrix.directory }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-result  # Nama artifact
-          path: ./praktikum_8/PRAKTIKUM_8.pdf  # Path file/folder yang akan di-upload
+          name: dokumentasi
+          path: dokumentasi
+
+
+            # - name: Upload a file to Google Drive
+            #   uses: adityak74/google-drive-upload-git-action@main
+            #   with:
+            #     filename: ./praktikum_8/PRAKTIKUM_8.pdf
+            #     credentials: ${{ secrets.CREDENTIALS }}
+            #     folderId: ${{ secrets.FOLDER_ID }}
+            #     overwrite: true
