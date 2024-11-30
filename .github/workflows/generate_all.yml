@@ -33,18 +33,17 @@ jobs:
           -maxdepth 1 \
           -execdir bash -c 'cd "{}" && ../.github/docs.sh "${{ vars.NAMA }}" "${{ vars.NIM }}"' \;
 
-      - name: Upload artifact (optional)
+      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: dokumentasi
           path: dokumentasi
         if: ${{ success() }}
 
-      # Uncomment and configure for Google Drive upload (optional)
-      # - name: Upload documentation to Google Drive (optional)
-      #   uses: adityak74/google-drive-upload-git-action@main
-      #   with:
-      #     filename: ${{ matrix.directory }}/dokumentasi/PRAKTIKUM_8.pdf  # Adjust filename based on directory and file name
-      #     credentials: ${{ secrets.CREDENTIALS }}
-      #     folderId: ${{ secrets.CREDENTIALS }}
-      #     overwrite: true
+      - name: Upload all to Google Drive (optional)
+        uses: adityak74/google-drive-upload-git-action@main
+        with:
+          filename: /dokumentasi/*.pdf
+          credentials: ${{ secrets.CREDENTIALS }}
+          folderId: ${{ secrets.FOLDER_ID }}
+          overwrite: true
