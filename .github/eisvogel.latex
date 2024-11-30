@@ -393,29 +393,11 @@ $if(graphics)$
 \usepackage{graphicx}
 \makeatletter
 \newsavebox\pandoc@box
-\newcommand*\pandocbounded[1]{%
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
   \sbox\pandoc@box{#1}%
-  
-  % Maksimum tinggi dan lebar gambar sesuai ukuran kertas
-  \def\maxheight{\dimexpr\paperheight-4in\relax} % Margin 1.5 inci atas & bawah
-  \def\maxwidth{\dimexpr\paperwidth-2in\relax}  % Margin 1 inci kiri & kanan
-
-  % Skala berdasarkan batas tinggi
-  \Gscale@div\@tempa{\maxheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
-  
-  % Skala berdasarkan batas lebar
-  \Gscale@div\@tempb{\maxwidth}{\wd\pandoc@box}%
-  
-  % Prioritaskan tinggi jika orientasi potret
-  \ifdim\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax>\wd\pandoc@box
-    % Jika tinggi > lebar
-    \let\@tempa\@tempa % Skala tinggi prioritas
-  \else
-    % Jika lebar lebih dominan
-    \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi%
-  \fi
-
-  % Terapkan skala jika diperlukan
+  \Gscale@div\@tempa{\dimexpr 0.9\textheight \relax}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
   \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
   \else\usebox{\pandoc@box}%
   \fi%
@@ -423,8 +405,8 @@ $if(graphics)$
 % Set default figure placement to htbp
 % Make use of float-package and set default placement for figures to H.
 % The option H means 'PUT IT HERE' (as  opposed to the standard h option which means 'You may put it here if you like').
-% \usepackage{float}
-% \floatplacement{figure}{$if(float-placement-figure)$$float-placement-figure$$else$H$endif$}
+\usepackage{float}
+\floatplacement{figure}{$if(float-placement-figure)$$float-placement-figure$$else$H$endif$}
 \makeatother
 $endif$
 $if(svg)$

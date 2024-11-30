@@ -41,11 +41,11 @@ EOF
                 echo -e "\n\`\`\`" >> "$title.md"
             done
         fi
-        printf "\n\n" >> "$title.md"
+        # echo "\clearpage" >> "$title.md"
         echo "## screenshot" >> "$title.md"
         find "$project/screenshots" -name "*.png" -type f | while IFS= read -r image; do
             if [[ -f "$image" ]]; then
-                echo "!["$(basename "${image%.png}")"]($image)" >> "$title.md"
+                echo "!["$(basename "${image%.png}")"]($image){ max-height=40% }" >> "$title.md"
                 printf "\n\n" >> "$title.md"
             fi
         done
@@ -56,8 +56,7 @@ EOF
 render() {
     pandoc "$title.md" -o "$title.pdf" \
     --from markdown \
-    --template=$(git rev-parse --show-toplevel)/.github/template.latex \
-    --dpi=600 \
+    --template=$(git rev-parse --show-toplevel)/.github/eisvogel.latex \
     --pdf-engine=pdflatex \
     --listings --number-sections --embed-resources && rm -f "$title.md"
 }
