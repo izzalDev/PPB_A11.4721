@@ -18,6 +18,10 @@ jobs:
           package-file: |
             ./.github/template_deps.txt
             ./.github/basictex_deps.txt
+            
+      - name: List entries
+        if: failure()
+        run: ls -l /home/runner/work/_temp/setup-texlive-action/2024/bin
 
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
