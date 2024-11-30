@@ -77,6 +77,8 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Update GitHub homepage
+        env:
+        GH_TOKEN: ${{ github.token }}
         run: gh repo edit --homepage "${{ steps.deployment.outputs.page_url }}"
 
       - name: Upload all to Google Drive (optional)
