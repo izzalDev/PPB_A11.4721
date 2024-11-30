@@ -2,10 +2,14 @@
 title: "PRAKTIKUM_5"
 toc: true
 toc-own-page: true
+toc-title: "Daftar Isi"
 titlepage: true
-subtitle: "Rizal Fadlullah - A11.2019.12070"
+author: " - "
+header-includes:
+  - \usepackage{caption}
+  - \captionsetup[figure]{name=Screenshot, justification=centering, singlelinecheck=false}
 ---
-# profil_resto
+# PROFIL_RESTO
 ## lib/main.dart
 ```dart
 import 'package:flutter/material.dart';
@@ -103,8 +107,9 @@ class RestaurantProfile extends StatelessWidget {
 }
 
 ```
-## OUPUT
-# penghitung_bbm
+## screenshot
+\clearpage
+# PENGHITUNG_BBM
 ## lib/bbm.dart
 ```dart
 class BBM {
@@ -217,4 +222,5 @@ class _MainHomePage extends State<MainHomePage> {
 }
 
 ```
-## OUPUT
+## screenshot
+\clearpage
