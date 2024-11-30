@@ -29,7 +29,7 @@
           <span x-text="error"></span>
         </div>
 
-        <div class="overflow-auto max-h-96" x-show="!loading && !error">
+        <div class="overflow-auto max-h-full" x-show="!loading && !error">
           <!-- List of files -->
           <ul class="space-y-3" x-show="files.length > 0">
             <template x-for="(file, index) in files" :key="file.name">
