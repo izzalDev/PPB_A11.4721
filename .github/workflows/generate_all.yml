@@ -18,7 +18,8 @@ jobs:
         run: |
           dirs=$(find . -type d -regex '.*/(praktikum_[0-9]{1,2}|uts|uas)')
           echo "Detected directories: $dirs"
-          echo "dirs=$dirs" >> $GITHUB_OUTPUT
+          dirs_array=$(echo $dirs | tr ' ' '\n' | jq -R . | jq -s .)
+          echo "dirs=$dirs_array" >> $GITHUB_OUTPUT
           
     outputs:
       dirs: ${{ steps.all_dirs.outputs.dirs }}
