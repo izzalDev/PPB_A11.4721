@@ -395,9 +395,20 @@ $if(graphics)$
 \newsavebox\pandoc@box
 \newcommand*\pandocbounded[1]{%
   \sbox\pandoc@box{#1}%
-  \Gscale@div\@tempa{\dimexpr\paperheight-4in\relax}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
-  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  % Maksimum tinggi dan lebar gambar sesuai ukuran kertas
+  \def\maxheight{\dimexpr\paperheight-2in\relax} % Margin 1 inci atas & bawah
+  \def\maxwidth{\dimexpr\paperwidth-2in\relax}  % Margin 1 inci kiri & kanan
+  
+  % Skala berdasarkan batas tinggi
+  \Gscale@div\@tempa{\maxheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  
+  % Skala berdasarkan batas lebar
+  \Gscale@div\@tempb{\maxwidth}{\wd\pandoc@box}%
+  
+  % Pilih skala terkecil untuk mempertahankan aspect ratio
   \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi%
+  
+  % Terapkan skala jika diperlukan
   \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
   \else\usebox{\pandoc@box}%
   \fi%
