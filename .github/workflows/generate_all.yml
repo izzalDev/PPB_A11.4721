@@ -47,14 +47,14 @@ jobs:
             find . -type f -name "*.pdf" | while read -r file; do
                 size=$(du -h "$file" | cut -f1)
                 if [ $first -eq 1 ]; then
-                    echo "{ \"name\": \"$file\", \"size\": \"$size\" }" >> files.json
+                    echo "{ \"name\": \"$(basename $file)\", \"size\": \"$size\" }" >> files.json
                     first=0
                 else
-                    echo ", { \"name\": \"$file\", \"size\": \"$size\" }" >> files.json
+                    echo ", { \"name\": \"$(basename $file)\", \"size\": \"$size\" }" >> files.json
                 fi
             done
             echo "]" >> files.json
-            cp ../.github/docs.html ./index.html
+            cp ../.github/index.html ./index.html
         working-directory: dokumentasi
 
       - name: Upload artifact
