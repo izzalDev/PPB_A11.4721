@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1031656325299",
+    "project_id": "fluttercontactfirebase-7e746",
+    "storage_bucket": "fluttercontactfirebase-7e746.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031656325299:android:b77343349f354a1d68f0c6",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpkEOXpmscRaaUGTJsKeMO4z1VsVISfJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031656325299:android:8a6587ad5ca4a50668f0c6",
+        "android_client_info": {
+          "package_name": "com.example.flutter_contact_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpkEOXpmscRaaUGTJsKeMO4z1VsVISfJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
