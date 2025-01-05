@@ -19,7 +19,6 @@ class _RegisterPageState extends State<RegisterPage> {
     final username = usernameController.text.trim();
     final password = passwordController.text.trim();
     final success = await auth.register(fullname, username, password);
-    debugPrint(auth.currentUser.toString());
 
     if (success && mounted) {
       _showSnackBar(content: 'Registrasi berhasil. Mengalihkan ke halaman home.');
@@ -34,17 +33,13 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _showSnackBar({required String content}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(content)),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(content)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Halaman Register'),
-      ),
+      appBar: AppBar(title: const Text('Halaman Register')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

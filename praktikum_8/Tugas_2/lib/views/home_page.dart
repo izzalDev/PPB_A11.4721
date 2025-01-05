@@ -3,41 +3,85 @@ import 'package:inventory_app/models/models.dart';
 import 'package:inventory_app/repositories/repositories.dart';
 import 'package:inventory_app/views/views.dart';
 
-class HomePage extends StatelessWidget {
-  final productRepository = ProductRepository();
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
-  HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final productRepository = ProductRepository();
+  late Future<List<Product>?> _productsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProducts();
+  }
+
+  void _loadProducts() {
+    _productsFuture = productRepository.getAllProduct();
+  }
+
+  void _addProduct(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductFormPage(
+          onSave: () {
+            _loadProducts(); // Refresh the list when a product is saved
+            setState(() {});
+          },
+        ),
+      ),
+    );
+  }
 
   void _updateProduct(BuildContext context, Product product) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ProductFormPage(product: product),
+        builder: (context) => ProductFormPage(
+          product: product,
+          onSave: () {
+            _loadProducts(); // Refresh the list when a product is updated
+            setState(() {});
+          },
+        ),
       ),
     );
   }
 
+  void _deleteProduct(Product product) async {
+    final result = await productRepository.deleteProduct(product);
+    if (result != null && result > 0) {
+      _loadProducts(); // Refresh the list after deletion
+      setState(() {});
+      _showSnackBar('Produk berhasil dihapus');
+    } else {
+      _showSnackBar('Gagal menghapus produk');
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
-    final product = Product(
-      name: 'Barang 1',
-      purchasePrice: 10,
-      sellingPrice: 10,
-      stock: 10,
-    );
-
     return Scaffold(
       appBar: AppBar(title: const Text('Inventory App')),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _updateProduct(context, product),
+        onPressed: () => _addProduct(context),
         tooltip: 'Tambah Barang',
         child: const Icon(Icons.add),
       ),
       body: FutureBuilder<List<Product>?>(
-        future: productRepository.getAllProduct(),
+        future: _productsFuture,
         builder: (context, snapshot) {
-          final connection = snapshot.connectionState;
-          if (connection == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -52,7 +96,7 @@ class HomePage extends StatelessWidget {
             return ListView.builder(
               itemCount: products.length,
               itemBuilder: (context, index) {
-                final currentProduct = products.elementAt(index);
+                final currentProduct = products[index];
                 return Card(
                   elevation: 5,
                   margin:
@@ -86,10 +130,10 @@ class HomePage extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text('ID: ${currentProduct.id}'),
                               Text(
-                                  'Purchase Price: ${currentProduct.purchasePrice}'),
+                                  'Harga Beli: ${currentProduct.purchasePrice}'),
                               Text(
-                                  'Selling Price: ${currentProduct.sellingPrice}'),
-                              Text('Stock: ${currentProduct.stock}'),
+                                  'Harga Jual: ${currentProduct.sellingPrice}'),
+                              Text('Stok: ${currentProduct.stock}'),
                             ],
                           ),
                         ),
@@ -97,6 +141,10 @@ class HomePage extends StatelessWidget {
                           icon: const Icon(Icons.edit, color: Colors.blue),
                           onPressed: () =>
                               _updateProduct(context, currentProduct),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () => _deleteProduct(currentProduct),
                         ),
                       ],
                     ),

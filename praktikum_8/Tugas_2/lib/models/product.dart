@@ -13,8 +13,10 @@ class Product {
     required this.stock,
   }) : _id = id;
 
+  // Mendapatkan ID produk
   int? get id => _id;
 
+  // Menetapkan ID produk, hanya bisa diset sekali
   set id(int? id) {
     if (_id == null) {
       _id = id;
@@ -23,6 +25,7 @@ class Product {
     }
   }
 
+  // Mengonversi produk ke dalam bentuk Map
   Map<String, dynamic> toMap() {
     return {
       'id': _id,
@@ -33,6 +36,7 @@ class Product {
     };
   }
 
+  // Membuat produk dari Map
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
       name: map['name'],

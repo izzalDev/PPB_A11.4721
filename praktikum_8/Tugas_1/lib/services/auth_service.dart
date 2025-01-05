@@ -9,7 +9,6 @@ class AuthService {
   AuthService._internal();
 
   final UserRepository _userRepository = UserRepository();
-
   User? _currentUser;
 
   User? get currentUser => _currentUser;
@@ -32,13 +31,9 @@ class AuthService {
     return false;
   }
 
-  Future<bool> register(
-    String fullname,
-    String username,
-    String password,
-  ) async {
+  Future<bool> register(String fullname, String username, String password) async {
     final existingUser = await _userRepository.getUserByUsername(username);
-    existingUser ?? false;
+    if (existingUser != null) return false;
 
     final newUser = User(
       fullname: fullname,

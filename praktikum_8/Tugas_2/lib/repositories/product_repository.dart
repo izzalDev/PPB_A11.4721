@@ -1,19 +1,19 @@
-import 'package:inventory_app/services/services.dart';
 import 'package:inventory_app/models/models.dart';
+import 'package:inventory_app/services/db_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ProductRepository {
   final tableName = 'products';
 
-  Future<void> addProduct(Product newProduct) async {
+  Future<Product> addProduct(Product newProduct) async {
     final db = await DBService.getDatabase();
     final id = await db.insert(
       tableName,
       newProduct.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    db.close();
     newProduct.id = id;
+    return newProduct;
   }
 
   Future<List<Product>?> getAllProduct() async {
@@ -25,7 +25,6 @@ class ProductRepository {
       'selling_price',
       'stock',
     ]);
-    db.close();
 
     if (result.isNotEmpty) {
       return result.map((productMap) => Product.fromMap(productMap)).toList();
@@ -35,15 +34,17 @@ class ProductRepository {
   }
 
   Future<int?> updateProduct(Product product) async {
+    if (product.id == null) {
+      throw Exception('Product ID cannot be null');
+    }
+
     final db = await DBService.getDatabase();
     final result = await db.update(
       tableName,
       product.toMap(),
       where: 'id = ?',
-      whereArgs: [product.id.toString()],
+      whereArgs: [product.id], // Ensure the id is not null
     );
-    db.close();
-
     return result;
   }
 
@@ -52,10 +53,8 @@ class ProductRepository {
     final result = await db.delete(
       tableName,
       where: 'id = ?',
-      whereArgs: [product.id.toString()],
+      whereArgs: [product.id],
     );
-    db.close();
-
     return result;
   }
 }

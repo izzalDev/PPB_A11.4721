@@ -30,17 +30,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _showSnackBar({required String content}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(content)),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(content)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Halaman Login'),
-      ),
+      appBar: AppBar(title: const Text('Halaman Login')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

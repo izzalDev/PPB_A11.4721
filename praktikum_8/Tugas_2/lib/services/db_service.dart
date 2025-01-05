@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -38,8 +37,12 @@ class DBService {
     ''');
   }
 
+  // Ensuring the database is closed only when necessary
   static Future<void> close() async {
-    final db = await getDatabase();
-    db.close();
+    if (_database != null && _database!.isOpen) {
+      final db = await getDatabase();
+      await db.close();
+      _database = null;
+    }
   }
 }

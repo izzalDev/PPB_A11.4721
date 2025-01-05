@@ -32,9 +32,4 @@ class DBService {
       )
     ''');
   }
-
-  static Future<void> close() async {
-    final db = await getDatabase();
-    db.close();
-  }
 }
