@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -17,8 +15,6 @@ class DBService {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'app_database.db');
 
-    log('SQLite Location: $path');
-
     return await openDatabase(
       path,
       version: 1,
@@ -28,26 +24,12 @@ class DBService {
 
   static Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE products(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        price INTEGER,
-        description TEXT,
-        image TEXT
-      )
-    ''');
-    await db.execute('''
       CREATE TABLE users(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fullname TEXT,
         username TEXT,
         password TEXT
       )
     ''');
-    db.close();
-  }
-
-  static Future<void> close() async {
-    final db = await getDatabase();
-    db.close();
   }
 }

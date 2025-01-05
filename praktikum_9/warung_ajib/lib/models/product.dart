@@ -1,45 +1,37 @@
 class Product {
-  int? _id;
-  String name;
-  int price;
-  String description;
-  String image;
+  final int id;
+  final String name;
+  final String description;
+  final int price; // Menggunakan int untuk price
+  final String image;
 
   Product({
-    int? id,
+    required this.id,
     required this.name,
-    required this.price,
     required this.description,
+    required this.price,
     required this.image,
-  }) : _id = id;
+  });
 
-  int? get id => _id;
-
-  set id(int? id) {
-    if (_id == null) {
-      _id = id;
-    } else {
-      throw Exception('ID sudah diatur dan tidak bisa dirubah lagi');
-    }
+  // Factory method untuk membuat instance dari JSON
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      price: json['price'], // Tidak perlu konversi
+      image: json['image'],
+    );
   }
 
-  Map<String, dynamic> toMap() {
+  // Method untuk mengubah instance menjadi JSON
+  Map<String, dynamic> toJson() {
     return {
-      'id': _id,
+      'id': id,
       'name': name,
-      'price': price,
       'description': description,
+      'price': price, // Tetap int
       'image': image,
     };
-  }
-
-  factory Product.fromMap(Map<String, dynamic> map) {
-    return Product(
-      name: map['name'],
-      price: map['price'],
-      description: map['description'],
-      image: map['image'],
-      id: map['id'],
-    );
   }
 }

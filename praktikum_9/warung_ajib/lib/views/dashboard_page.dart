@@ -1,12 +1,13 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:warung_ajib/models/product.dart';
-import 'package:warung_ajib/pages/call_center_page.dart';
-import 'package:warung_ajib/pages/login_page.dart';
-import 'package:warung_ajib/pages/maps_page.dart';
-import 'package:warung_ajib/pages/payment_page.dart';
-import 'package:warung_ajib/pages/sms_page.dart';
-import 'package:warung_ajib/pages/user_update_page.dart';
-import 'package:warung_ajib/repositories/repositories.dart';
+import 'package:warung_ajib/views/call_center_page.dart';
+import 'package:warung_ajib/views/login_page.dart';
+import 'package:warung_ajib/views/maps_page.dart';
+import 'package:warung_ajib/views/payment_page.dart';
+import 'package:warung_ajib/views/sms_page.dart';
+import 'package:warung_ajib/views/user_update_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -16,9 +17,25 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final _productRepository = ProductRepository();
-  final Map<Product, int> productQuantityMap = {};
+  late Map<Product, int> productQuantityMap = {};
   int totalHarga = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProducts();
+  }
+
+  Future<void> _loadProducts() async {
+    final String response = await rootBundle.loadString('assets/products.json');
+    final List<dynamic> data = json.decode(response);
+    setState(() {
+      productQuantityMap = {
+        for (var product in data.map((json) => Product.fromJson(json)))
+          product: 0
+      };
+    });
+  }
 
   void _tambahKeTotal(Product product) {
     setState(() {
@@ -30,7 +47,9 @@ class _DashboardPageState extends State<DashboardPage> {
   void _resetTransaction() {
     setState(() {
       totalHarga = 0;
-      productQuantityMap.clear();
+      productQuantityMap = {
+        for (var product in productQuantityMap.keys) product: 0
+      };
     });
   }
 
@@ -120,45 +139,30 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ],
       ),
-      body: FutureBuilder<List<Product>?>(
-        future: _productRepository.getAllProduct(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text('Produk tidak tersedia'),
-            );
-          } else {
-            final products = snapshot.data!;
-            return SingleChildScrollView(
+      body: productQuantityMap.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
               child: Column(
                 children: [
                   GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 8.0,
                       mainAxisSpacing: 8.0,
                       childAspectRatio: 0.7,
                     ),
-                    itemCount: products.length,
+                    itemCount: productQuantityMap.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final product = products[index];
+                      final product = productQuantityMap.keys.elementAt(index);
                       return _buildProductCard(context, product);
                     },
                   ),
                 ],
               ),
-            );
-          }
-        },
-      ),
+            ),
       bottomNavigationBar: GestureDetector(
         onTap: () {
           _showMenu('Pembayaran');

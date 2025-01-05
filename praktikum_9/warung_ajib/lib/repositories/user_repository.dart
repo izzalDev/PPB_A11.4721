@@ -6,34 +6,36 @@ class UserRepository {
   final tableName = 'users';
 
   Future<User?> getUserByUsername(String username) async {
-    final db = await DBService.getDatabase();
-    final result = await db.query(
-      tableName,
-      columns: [
-        'id',
-        'username',
-        'password',
-      ],
-      where: 'username = ?',
-      whereArgs: [username],
-    );
+    try {
+      final db = await DBService.getDatabase();
+      final result = await db.query(
+        tableName,
+        columns: ['id', 'fullname', 'username', 'password'],
+        where: 'username = ?',
+        whereArgs: [username],
+      );
 
-    db.close();
-
-    if (result.isNotEmpty) {
-      return User.fromMap(result.first);
-    } else {
+      if (result.isNotEmpty) {
+        return User.fromMap(result.first);
+      }
+      return null;
+    } catch (e) {
+      print('Error fetching user by username: $e');
       return null;
     }
   }
 
   Future<void> addUser(User newUser) async {
-    final db = await DBService.getDatabase();
-    await db.insert(
-      tableName,
-      newUser.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    db.close();
+    try {
+      final db = await DBService.getDatabase();
+      await db.insert(
+        tableName,
+        newUser.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print('Error adding new user: $e');
+      rethrow;
+    }
   }
 }

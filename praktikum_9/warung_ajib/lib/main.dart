@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:warung_ajib/splashscreen.dart';
+import 'package:warung_ajib/views/views.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +12,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login dan Registrasi',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreen(),
+      initialRoute: '/splash-screen',
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
+        '/dashboard': (context) => const DashboardPage(),
+        '/splash-screen': (context) => const SplashScreen(),
+      },
     );
   }
 }

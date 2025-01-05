@@ -1,2 +1,2 @@
-export 'db_services.dart';
-export 'auth_services.dart';
+export 'auth_service.dart';
+export 'db_service.dart';
