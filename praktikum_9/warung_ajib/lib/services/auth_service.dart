@@ -31,7 +31,11 @@ class AuthService {
     return false;
   }
 
-  Future<bool> register(String fullname, String username, String password) async {
+  Future<bool> register(
+    String fullname,
+    String username,
+    String password,
+  ) async {
     final existingUser = await _userRepository.getUserByUsername(username);
     if (existingUser != null) return false;
 

@@ -1,13 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
-import 'package:warung_ajib/models/product.dart';
-import 'package:warung_ajib/views/call_center_page.dart';
-import 'package:warung_ajib/views/login_page.dart';
-import 'package:warung_ajib/views/maps_page.dart';
-import 'package:warung_ajib/views/payment_page.dart';
-import 'package:warung_ajib/views/sms_page.dart';
-import 'package:warung_ajib/views/user_update_page.dart';
+import 'package:warung_ajib/models/models.dart';
+import 'package:warung_ajib/services/services.dart';
+import 'package:warung_ajib/views/views.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -17,6 +13,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  final auth = AuthService();
   late Map<Product, int> productQuantityMap = {};
   int totalHarga = 0;
 
@@ -56,10 +53,7 @@ class _DashboardPageState extends State<DashboardPage> {
   void _showMenu(String choice) {
     switch (choice) {
       case 'Update User & Password':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const UserUpdatePage()),
-        );
+        Navigator.pushNamed(context, 'user-update');
         break;
       case 'Call Center Penjual':
         Navigator.push(
@@ -92,9 +86,10 @@ class _DashboardPageState extends State<DashboardPage> {
         );
         break;
       case 'Logout':
-        Navigator.pushReplacement(
+        auth.logout();
+        Navigator.pushReplacementNamed(
           context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
+          '/login',
         );
         break;
     }

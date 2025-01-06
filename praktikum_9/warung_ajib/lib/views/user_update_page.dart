@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:warung_ajib/services/services.dart';
 
 class UserUpdatePage extends StatefulWidget {
   const UserUpdatePage({super.key});
@@ -12,6 +13,7 @@ class _UserUpdatePageState extends State<UserUpdatePage> {
   final _nameController = TextEditingController();
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
+  final auth = AuthService();
 
   @override
   void initState() {
