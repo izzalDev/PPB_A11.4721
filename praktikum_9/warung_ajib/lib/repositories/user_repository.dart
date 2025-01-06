@@ -38,4 +38,20 @@ class UserRepository {
       rethrow;
     }
   }
+
+  Future<void> updateUser(User user) async {
+    try {
+      final db = await DBService.getDatabase();
+      await db.update(
+        tableName,
+        user.toMap(),
+        where: 'id = ?',
+        whereArgs: [user.id],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print('Error update user: $e');
+      rethrow;
+    }
+  }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:warung_ajib/models/models.dart';
 import 'package:warung_ajib/repositories/repositories.dart';
 import 'package:warung_ajib/services/services.dart';
-import 'package:warung_ajib/views/views.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -26,10 +25,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Future<void> _loadProducts() async {
     final List<Product>? data = await _productRepository.getAllProduct();
     setState(() {
-      productQuantityMap = {
-        for (var product in data!)
-          product: 0
-      };
+      productQuantityMap = {for (var product in data!) product: 0};
     });
   }
 
@@ -52,36 +48,26 @@ class _DashboardPageState extends State<DashboardPage> {
   void _showMenu(String choice) {
     switch (choice) {
       case 'Update User & Password':
-        Navigator.pushNamed(context, 'user-update');
+        Navigator.pushNamed(context, '/user-update');
         break;
       case 'Call Center Penjual':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const CallCenterPage()),
-        );
+        Navigator.pushNamed(context, '/call-center');
         break;
       case 'SMS ke Penjual':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SmsPage()),
-        );
+        Navigator.pushNamed(context, '/sms');
         break;
       case 'Maps Lokasi Agen':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MapsPage()),
-        );
+        Navigator.pushNamed(context, '/maps');
         break;
       case 'Pembayaran':
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (context) => PaymentPage(
-              totalTransaction: totalHarga,
-              productQuantityMap: productQuantityMap,
-              onPaymentComplete: _resetTransaction,
-            ),
-          ),
+          '/payment',
+          arguments: {
+            'totalTransaction': totalHarga,
+            'productQuantityMap': productQuantityMap,
+            'onPaymentComplete': _resetTransaction,
+          },
         );
         break;
       case 'Logout':

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:warung_ajib/models/product.dart';
 
 class PaymentPage extends StatelessWidget {
-  final int totalTransaction;
-  final Map<Product, int> productQuantityMap;
-  final VoidCallback onPaymentComplete;
+  final int? totalTransaction;
+  final Map<Product, int>? productQuantityMap;
+  final VoidCallback? onPaymentComplete;
 
   const PaymentPage({
     super.key,
-    required this.totalTransaction,
-    required this.productQuantityMap,
-    required this.onPaymentComplete,
+    this.totalTransaction,
+    this.productQuantityMap,
+    this.onPaymentComplete,
   });
 
   @override
@@ -32,7 +32,7 @@ class PaymentPage extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: ListView(
-                children: productQuantityMap.entries
+                children: productQuantityMap!.entries
                     .where((entry) => entry.value > 0)
                     .map((entry) => ListTile(
                           title: Text(entry.key.name),
@@ -77,7 +77,7 @@ class PaymentPage extends StatelessWidget {
                 );
 
                 if (result == true) {
-                  onPaymentComplete();
+                  onPaymentComplete!();
                   Navigator.pop(context);
                 }
               },

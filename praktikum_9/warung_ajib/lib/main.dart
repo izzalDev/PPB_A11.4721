@@ -22,6 +22,23 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardPage(),
         '/splash-screen': (context) => const SplashScreen(),
         '/user-update': (context) => const UserUpdatePage(),
+        '/call-center': (context) => const CallCenterPage(),
+        '/maps': (context) => const MapsPage(),
+        '/payment': (context) => const PaymentPage(),
+        '/sms': (context) => const SmsPage(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/payment') {
+          final args = settings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (context) => PaymentPage(
+              totalTransaction: args['totalTransaction'],
+              productQuantityMap: args['productQuantityMap'],
+              onPaymentComplete: args['onPaymentComplete'],
+            ),
+          );
+        }
+        return null; // Default fallback
       },
     );
   }

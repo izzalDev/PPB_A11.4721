@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:warung_ajib/services/services.dart';
 
 class UserUpdatePage extends StatefulWidget {
@@ -10,7 +9,7 @@ class UserUpdatePage extends StatefulWidget {
 }
 
 class _UserUpdatePageState extends State<UserUpdatePage> {
-  final _nameController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final auth = AuthService();
@@ -22,30 +21,46 @@ class _UserUpdatePageState extends State<UserUpdatePage> {
   }
 
   Future<void> _loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _nameController.text = prefs.getString('currentUser') ?? '';
+      _usernameController.text = auth.currentUser?.username ?? '';
     });
   }
 
   Future<void> _updateUserInfoAndPassword() async {
-    final prefs = await SharedPreferences.getInstance();
-    String currentUser = _nameController.text;
+    String currentUser = _usernameController.text;
     String currentPassword = _currentPasswordController.text;
     String newPassword = _newPasswordController.text;
 
-    // Validasi dan perbarui password
-    String? storedPassword = prefs.getString(currentUser);
-    if (storedPassword != null && storedPassword == currentPassword) {
-      await prefs.setString('userPassword', newPassword);
+    // Validasi apakah semua field telah diisi
+    if (currentUser.isEmpty || currentPassword.isEmpty || newPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content:
-                Text('Informasi pengguna dan password berhasil diperbarui!')),
+        const SnackBar(content: Text('Semua field harus diisi!')),
       );
-    } else {
+      return;
+    }
+
+    try {
+      // Validasi password sekarang
+      bool isPasswordValid = await auth.validatePassword(currentPassword);
+
+      if (isPasswordValid) {
+        // Update password dan username
+        await auth.changePassword(currentPassword, newPassword);
+        await auth.updateUsername(currentPassword, currentUser);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content:
+                  Text('Informasi pengguna dan password berhasil diperbarui!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Password sekarang salah!')),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password sekarang salah!')),
+        SnackBar(content: Text('Terjadi kesalahan: $e')),
       );
     }
   }
@@ -62,7 +77,7 @@ class _UserUpdatePageState extends State<UserUpdatePage> {
           child: Column(
             children: [
               TextField(
-                controller: _nameController,
+                controller: _usernameController,
                 decoration: const InputDecoration(labelText: 'Username'),
               ),
               const SizedBox(height: 20),

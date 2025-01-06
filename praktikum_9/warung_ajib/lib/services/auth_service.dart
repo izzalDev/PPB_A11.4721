@@ -59,4 +59,45 @@ class AuthService {
   bool isLoggedIn() {
     return _currentUser != null;
   }
+
+  Future<bool> changePassword(
+    String currentPassword,
+    String newPassword,
+  ) async {
+    final isPasswordValid = await validatePassword(currentPassword);
+    final hashedPassword = _hashPassword(newPassword);
+
+    if (isPasswordValid) {
+      _currentUser?.password = hashedPassword;
+      _userRepository.updateUser(_currentUser!);
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> updateUsername(
+    String currentPassword,
+    String newUsername,
+  ) async {
+    final isPasswordValid = await validatePassword(currentPassword);
+
+    if (isPasswordValid) {
+      _currentUser?.username = newUsername;
+      _userRepository.updateUser(_currentUser!);
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> validatePassword(String currentPassword) async {
+    final hashedPassword = _hashPassword(currentPassword);
+
+    if (_currentUser?.password == hashedPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
