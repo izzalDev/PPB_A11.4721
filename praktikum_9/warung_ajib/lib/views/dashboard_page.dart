@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:warung_ajib/models/models.dart';
+import 'package:warung_ajib/repositories/repositories.dart';
 import 'package:warung_ajib/services/services.dart';
 import 'package:warung_ajib/views/views.dart';
 
@@ -13,7 +12,8 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final auth = AuthService();
+  final _auth = AuthService();
+  final _productRepository = ProductRepository();
   late Map<Product, int> productQuantityMap = {};
   int totalHarga = 0;
 
@@ -24,11 +24,10 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Future<void> _loadProducts() async {
-    final String response = await rootBundle.loadString('assets/products.json');
-    final List<dynamic> data = json.decode(response);
+    final List<Product>? data = await _productRepository.getAllProduct();
     setState(() {
       productQuantityMap = {
-        for (var product in data.map((json) => Product.fromJson(json)))
+        for (var product in data!)
           product: 0
       };
     });
@@ -86,7 +85,7 @@ class _DashboardPageState extends State<DashboardPage> {
         );
         break;
       case 'Logout':
-        auth.logout();
+        _auth.logout();
         Navigator.pushReplacementNamed(
           context,
           '/login',
