@@ -29,33 +29,36 @@ EOF
                 echo -e "\n\`\`\`" >>"$title.md"
             done
         else
+            echo "## FRONTEND" >>"$title.md"
             for file in $(find $project/frontend/lib -type f -name "*.dart"); do
-                echo "## ${file#$project/}" >>"$title.md"
+                echo "### ${file#$project/}" >>"$title.md"
                 echo "\`\`\`dart" >>"$title.md"
                 cat $file >>"$title.md"
                 echo -e "\n\`\`\`" >>"$title.md"
-                echo "## screenshot" >>"$title.md"
-                find "$project/frontend/screenshots" -name "*.png" -type f | while IFS= read -r image; do
-                    if [[ -f "$image" ]]; then
-                        echo "!["$(basename "${image%.png}")"]($image)" >>"$title.md"
-                        printf "\n\n" >>"$title.md"
-                    fi
-                done
-                echo "\clearpage" >>"$title.md"
             done
+            echo "### screenshot" >>"$title.md"
+            find "$project/frontend/screenshots" -name "*.png" -type f | while IFS= read -r image; do
+                if [[ -f "$image" ]]; then
+                    echo "!["$(basename "${image%.png}")"]($image)" >>"$title.md"
+                    printf "\n\n" >>"$title.md"
+                fi
+            done
+            echo "\clearpage" >>"$title.md"
+            echo "## BACKEND" >> "$title.md"
             for file in $(find $project/backend/src -type f -name "*.ts"); do
-                echo "## ${file#$project/}" >>"$title.md"
+                echo "### ${file#$project/}" >>"$title.md"
                 echo "\`\`\`typescript" >>"$title.md"
                 cat $file >>"$title.md"
                 echo -e "\n\`\`\`" >>"$title.md"
-                find "$project/backend/screenshots" -name "*.png" -type f | while IFS= read -r image; do
-                    if [[ -f "$image" ]]; then
-                        echo "!["$(basename "${image%.png}")"]($image)" >>"$title.md"
-                        printf "\n\n" >>"$title.md"
-                    fi
-                done
-                echo "\clearpage" >>"$title.md"
             done
+            echo "### screenshot" >>"$title.md"
+            find "$project/backend/screenshots" -name "*.png" -type f | while IFS= read -r image; do
+                if [[ -f "$image" ]]; then
+                    echo "!["$(basename "${image%.png}")"]($image)" >>"$title.md"
+                    printf "\n\n" >>"$title.md"
+                fi
+            done
+            echo "\clearpage" >>"$title.md"
         fi
         # echo "\clearpage" >> "$title.md"
         echo "## screenshot" >>"$title.md"
