@@ -1,0 +1,117 @@
+{
+    "info": {
+      "name": "Notes API",
+      "_postman_id": "12345678-abcd-1234-abcd-12345678abcd",
+      "description": "Collection to test Notes API endpoints",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Get All Notes",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8080/notes",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "8080",
+            "path": ["notes"]
+          }
+        }
+      },
+      {
+        "name": "Get Note by ID",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8080/notes/:id",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "8080",
+            "path": ["notes", ":id"],
+            "variable": [
+              {
+                "key": "id",
+                "value": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Create Note",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"title\": \"Sample Note\",\n  \"content\": \"This is a sample note.\",\n  \"date\": \"2024-12-03T12:00:00Z\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:8080/notes",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "8080",
+            "path": ["notes"]
+          }
+        }
+      },
+      {
+        "name": "Update Note",
+        "request": {
+          "method": "PUT",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"title\": \"Updated Note\",\n  \"content\": \"This note has been updated.\",\n  \"date\": \"2024-12-03T12:00:00Z\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:8080/notes/:id",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "8080",
+            "path": ["notes", ":id"],
+            "variable": [
+              {
+                "key": "id",
+                "value": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Delete Note",
+        "request": {
+          "method": "DELETE",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:8080/notes/:id",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "8080",
+            "path": ["notes", ":id"],
+            "variable": [
+              {
+                "key": "id",
+                "value": "1"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+  
