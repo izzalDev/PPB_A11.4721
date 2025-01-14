@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:latihan_web_service/views/views.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting('id_ID');
   runApp(const App());
 }
 

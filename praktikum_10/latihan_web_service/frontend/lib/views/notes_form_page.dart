@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:latihan_web_service/models/models.dart';
 import 'package:latihan_web_service/repositories/repositories.dart';
+import 'package:latihan_web_service/config.dart';
 
 class NotesFormPage extends StatefulWidget {
   final Note? note;
@@ -34,8 +35,7 @@ class _NotesFormPageState extends State<NotesFormPage> {
     }
 
     try {
-      final repository = NoteRepository(
-          baseUrl: 'http://localhost:8080'); // Ganti dengan URL backend Anda
+      final repository = NoteRepository(baseUrl: Config.apiBaseUrl);
 
       if (widget.note == null) {
         // Tambah catatan baru

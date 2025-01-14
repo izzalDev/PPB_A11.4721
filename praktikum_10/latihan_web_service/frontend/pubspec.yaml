@@ -39,6 +39,8 @@ dependencies:
   http: ^1.2.2
   flutter_randomcolor: ^1.0.16
   lorem_ipsum: ^0.0.3
+  dio: ^5.7.0
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:

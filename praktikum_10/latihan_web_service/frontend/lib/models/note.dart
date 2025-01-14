@@ -34,8 +34,12 @@ class Note {
   }
 
   // Convert a Note object into a JSON string
-  String toJson() {
-    return '{"id": $id, "title": "$title", "content": "$content", "date": "${date.toIso8601String()}"}';
+  String toJson({bool id = true}) {
+    return '{'
+        '${id ? '"id": $this.id, ' : ''}'
+        '"title": "$title", '
+        '"content": "$content", '
+        '"date": "${date.toIso8601String()}"}';
   }
 
   // Create a Note object from a JSON string

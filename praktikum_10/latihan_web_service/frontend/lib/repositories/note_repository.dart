@@ -3,55 +3,75 @@ import 'package:http/http.dart' as http;
 import 'package:latihan_web_service/models/models.dart';
 
 class NoteRepository {
-  final String baseUrl;
+  final Uri baseUrl;
 
   NoteRepository({required this.baseUrl});
 
   // Fetch all notes
-  Future<List<Note>> fetchNotes() async {
-    final response = await http.get(Uri.parse('$baseUrl/notes'));
-
+  Future<List<Note>> getNotes() async {
+    final response = await http.get(
+      baseUrl.resolve('/notes'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body)['data'];
       return data.map((note) => Note.fromMap(note)).toList();
     } else {
-      throw Exception('Failed to load notes');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception(error);
     }
   }
 
   // Fetch a single note by ID
   Future<Note> fetchNoteById(int id) async {
-    final response = await http.get(Uri.parse('$baseUrl/notes/$id'));
+    final response = await http.get(
+      baseUrl.resolve('/notes/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body)['data'];
       return Note.fromMap(data);
     } else {
-      throw Exception('Failed to load note');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception(error);
     }
   }
 
   // Create a new note
   Future<Note> createNote(Note note) async {
-    print(Uri.parse('$baseUrl/notes'));
     final response = await http.post(
-      Uri.parse('$baseUrl/notes'),
-      body: jsonEncode(note.toMap()),
+      baseUrl.resolve('/notes'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'title': note.title,
+        'content': note.content,
+        'date': note.date.toIso8601String(),
+      }),
     );
 
     if (response.statusCode == 201) {
       final data = jsonDecode(response.body)['data'];
       return Note.fromMap(data);
     } else {
-      print(response.body);
-      throw Exception('Failed to create note');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception(error);
     }
   }
 
   // Update an existing note
   Future<Note> updateNote(int id, Map<String, dynamic> updatedData) async {
     final response = await http.put(
-      Uri.parse('$baseUrl/notes/$id'),
+      baseUrl.resolve('/notes/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: jsonEncode(updatedData),
     );
 
@@ -59,16 +79,25 @@ class NoteRepository {
       final data = jsonDecode(response.body)['data'];
       return Note.fromMap(data);
     } else {
-      throw Exception('Failed to update note');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception(error);
     }
   }
 
   // Delete a note
-  Future<void> deleteNote(int id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/notes/$id'));
+  Future<bool> deleteNote(int id) async {
+    final response = await http.delete(
+      baseUrl.resolve('/notes/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to delete note');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception(error);
     }
+
+    return true;
   }
 }
