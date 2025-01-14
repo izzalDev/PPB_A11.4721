@@ -44,7 +44,7 @@ EOF
                 fi
             done
             echo "\clearpage" >>"$title.md"
-            echo "## BACKEND" >> "$title.md"
+            echo "## BACKEND" >>"$title.md"
             for file in $(find $project/backend/src -type f -name "*.ts"); do
                 echo "### ${file#$project/}" >>"$title.md"
                 echo "\`\`\`typescript" >>"$title.md"
@@ -61,14 +61,16 @@ EOF
             echo "\clearpage" >>"$title.md"
         fi
         # echo "\clearpage" >> "$title.md"
-        echo "## screenshot" >>"$title.md"
-        find "$project/screenshots" -name "*.png" -type f | while IFS= read -r image; do
-            if [[ -f "$image" ]]; then
-                echo "!["$(basename "${image%.png}")"]($image)" >>"$title.md"
-                printf "\n\n" >>"$title.md"
-            fi
-        done
-        echo "\clearpage" >>"$title.md"
+        if [ -d "$project/screenshots" ]; then
+            echo "## screenshot" >>"$title.md"
+            find "$project/screenshots" -name "*.png" -type f | while IFS= read -r image; do
+                if [[ -f "$image" ]]; then
+                    echo "!["$(basename "${image%.png}")"]($image)" >>"$title.md"
+                    printf "\n\n" >>"$title.md"
+                fi
+            done
+            echo "\clearpage" >>"$title.md"
+        fi
     done
 }
 
