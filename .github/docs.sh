@@ -31,7 +31,7 @@ EOF
         else
             echo "## FRONTEND" >>"$title.md"
             for file in $(find $project/frontend/lib -type f -name "*.dart"); do
-                echo "### ${file#$project/}" >>"$title.md"
+                echo "### ${file#$project/frontend}" >>"$title.md"
                 echo "\`\`\`dart" >>"$title.md"
                 cat $file >>"$title.md"
                 echo -e "\n\`\`\`" >>"$title.md"
@@ -46,7 +46,7 @@ EOF
             echo "\clearpage" >>"$title.md"
             echo "## BACKEND" >>"$title.md"
             for file in $(find $project/backend/src -type f -name "*.ts"); do
-                echo "### ${file#$project/}" >>"$title.md"
+                echo "### ${file#$project/backend}" >>"$title.md"
                 echo "\`\`\`typescript" >>"$title.md"
                 cat $file >>"$title.md"
                 echo -e "\n\`\`\`" >>"$title.md"
