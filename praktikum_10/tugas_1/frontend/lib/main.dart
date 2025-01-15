@@ -16,7 +16,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      initialRoute: '/homePage',
+      routes: {
+        '/homePage': (context) => HomePage(),
+        '/productFormPage': (context) => ProductFormPage(),
+      },
     );
   }
 }

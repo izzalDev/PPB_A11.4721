@@ -6,13 +6,9 @@ class Product {
   int purchasePrice;
   int sellingPrice;
   int stock;
-  DateTime? createdAt;
-  DateTime? editedAt;
 
   Product({
     this.id,
-    this.createdAt,
-    this.editedAt,
     required this.name,
     required this.purchasePrice,
     required this.sellingPrice,
@@ -26,8 +22,6 @@ class Product {
       'purchasePrice': purchasePrice,
       'sellingPrice': sellingPrice,
       'stock': stock,
-      'createdAt': createdAt?.toIso8601String(),
-      'editedAt': editedAt?.toIso8601String(),
     };
   }
 
@@ -38,8 +32,6 @@ class Product {
       purchasePrice: map['purchasePrice'],
       sellingPrice: map['sellingPrice'],
       stock: map['stock'],
-      createdAt: map['createdAt'] != null ? DateTime.parse(map['createdAt']) : null,
-      editedAt: map['editedAt'] != null ? DateTime.parse(map['editedAt']) : null,
     );
   }
 }

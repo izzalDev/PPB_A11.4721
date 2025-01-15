@@ -13,10 +13,13 @@ class ProductRepository {
     final response = await http.get(baseUrl.resolve('/products'));
 
     if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(response.body);
+      final Map<String, dynamic> body = jsonDecode(response.body);
+      final List<dynamic> data = body['data'];
+      print(data.map((json) => Product.fromMap(json)).toList());
       return data.map((json) => Product.fromMap(json)).toList();
     } else {
-      throw Exception('Failed to load products');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception('Failed to load products: $error');
     }
   }
 
@@ -26,7 +29,8 @@ class ProductRepository {
     if (response.statusCode == 200) {
       return Product.fromMap(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load product');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception('Failed to load products: $error');
     }
   }
 
@@ -38,9 +42,11 @@ class ProductRepository {
     );
 
     if (response.statusCode == 201) {
-      return Product.fromMap(jsonDecode(response.body));
+      final body = jsonDecode(response.body);
+      return Product.fromMap(body['data']);
     } else {
-      throw Exception('Failed to create product');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception('Failed to load products: $error');
     }
   }
 
@@ -52,18 +58,23 @@ class ProductRepository {
     );
 
     if (response.statusCode == 200) {
-      return Product.fromMap(jsonDecode(response.body));
+      final body = jsonDecode(response.body);
+      return Product.fromMap(body['data']);
     } else {
-      throw Exception('Failed to update product');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception('Failed to load products: $error');
     }
   }
 
   Future<void> delete(int id) async {
-    final response = await http.delete(baseUrl.resolve('/products/$id'));
+    final response = await http.delete(
+      baseUrl.resolve('/products/$id'),
+      headers: {'Content-Type': 'application/json'},
+    );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to delete product');
+      final error = jsonDecode(response.body)['error'];
+      throw Exception('Failed to load products: $error');
     }
   }
 }
-
