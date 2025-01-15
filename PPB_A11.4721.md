@@ -10,7 +10,11 @@ header-includes:
   - \captionsetup[figure]{name=Screenshot, justification=centering, singlelinecheck=false}
 ---
 # PRAKTIKUM_5
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # PRAKTIKUM_4
 ## lib/kalkulator.dart
@@ -253,8 +257,6 @@ class _PPBHomePageState extends State<PPBHomePage> {
 }
 
 ```
-## screenshot
-\clearpage
 # PRAKTIKUM_3
 ## lib/pertemuan_3.dart
 ```dart
@@ -263,13 +265,33 @@ int calculate() {
 }
 
 ```
-## screenshot
+# UAS
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
+\clearpage
+# PRAKTIKUM_12
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # DOKUMENTASI
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # UTS
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # FLUTTER_PLAYGROUND
 ## lib/main.dart
@@ -365,23 +387,52 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 ```
-## screenshot
-\clearpage
 # PRAKTIKUM_6
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # PRAKTIKUM_8
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # PRAKTIKUM_9
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # PRAKTIKUM_7
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # .GITHUB
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage
 # .GIT
-## screenshot
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
+\clearpage
+# PRAKTIKUM_10
+## FRONTEND
+### screenshot
+\clearpage
+## BACKEND
+### screenshot
 \clearpage

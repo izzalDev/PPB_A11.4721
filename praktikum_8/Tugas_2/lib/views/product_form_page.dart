@@ -44,7 +44,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       id: widget.product?.id, // Ensure ID is passed correctly (null check)
     );
 
-    final success;
+    final Object? success;
     if (product.id != null) {
       success = await productRepository.updateProduct(product);
     } else {
