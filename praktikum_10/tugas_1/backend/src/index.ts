@@ -3,7 +3,7 @@ import { Product, PrismaClient } from "@prisma/client";
 
 const app = express();
 const prisma = new PrismaClient();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -38,7 +38,7 @@ app.post("/products", async (req, res) => {
   try {
     const { name, purchasePrice, sellingPrice, stock } = req.body;
     const product: Product = await prisma.product.create({
-      data: { name, purchasePrice, sellingPrice, stock, date: new Date() },
+      data: { name, purchasePrice, sellingPrice, stock },
     });
     res.status(201).json({ data: product });
   } catch (e) {
@@ -55,7 +55,7 @@ app.put("/products/:id", async (req, res) => {
     const { name, purchasePrice, sellingPrice, stock } = req.body;
     const product: Product = await prisma.product.update({
       where: { id: productId },
-      data: { name, purchasePrice, sellingPrice, stock, date: new Date() },
+      data: { name, purchasePrice, sellingPrice, stock },
     });
     res.status(200).json({ data: product });
   } catch (e) {

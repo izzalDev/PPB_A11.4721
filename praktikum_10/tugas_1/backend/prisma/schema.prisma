@@ -17,5 +17,4 @@ model Product {
   purchasePrice Int @map("purchase_price")
   sellingPrice Int @map("selling_price")
   stock Int
-  date DateTime
 }
